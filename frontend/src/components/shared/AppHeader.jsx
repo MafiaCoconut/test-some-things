@@ -1,47 +1,79 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, LogOut } from 'lucide-react';
+import { 
+  AppBar, 
+  Toolbar, 
+  Typography, 
+  Button, 
+  Box,
+  IconButton,
+} from '@mui/material';
+import { Home, LogOut } from '@mui/icons-material';
 
 const AppHeader = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Mock logout - in real app would clear auth token
     navigate('/');
   };
 
   return (
-    <header className="bg-monstrino-black border-b border-monstrino-purple/20 px-4 py-3">
-      <div className="flex items-center justify-between max-w-full">
+    <AppBar 
+      position="fixed" 
+      sx={{ 
+        bgcolor: 'background.default',
+        borderBottom: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        boxShadow: 'none'
+      }}
+    >
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <div className="text-xl font-display font-bold text-monstrino-pink">
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Typography 
+            variant="h4" 
+            sx={{ 
+              color: 'primary.main',
+              fontWeight: 800,
+              fontFamily: '"Inter", sans-serif'
+            }}
+          >
             MONSTRINO
-          </div>
-          <div className="hidden sm:block text-xs text-monstrino-purple font-mono tracking-wide">
+          </Typography>
+          <Typography 
+            variant="caption" 
+            sx={{ 
+              color: 'secondary.main',
+              display: { xs: 'none', sm: 'block' }
+            }}
+          >
             MONSTER HIGH SOCIAL
-          </div>
-        </div>
+          </Typography>
+        </Box>
 
         {/* Navigation */}
-        <div className="flex items-center space-x-4">
-          <button
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Button
+            startIcon={<Home />}
             onClick={() => navigate('/')}
-            className="flex items-center space-x-1 text-monstrino-pink hover:text-monstrino-white transition-colors duration-150"
+            sx={{ color: 'primary.main' }}
           >
-            <Home className="w-4 h-4" />
-            <span className="hidden sm:inline font-mono text-xs uppercase tracking-wide">Home</span>
-          </button>
-          <button
+            <Typography sx={{ display: { xs: 'none', sm: 'block' } }}>
+              Home
+            </Typography>
+          </Button>
+          <Button
+            startIcon={<LogOut />}
             onClick={handleLogout}
-            className="flex items-center space-x-1 text-monstrino-pink hover:text-monstrino-white transition-colors duration-150"
+            sx={{ color: 'primary.main' }}
           >
-            <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline font-mono text-xs uppercase tracking-wide">Logout</span>
-          </button>
-        </div>
-      </div>
-    </header>
+            <Typography sx={{ display: { xs: 'none', sm: 'block' } }}>
+              Logout
+            </Typography>
+          </Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 

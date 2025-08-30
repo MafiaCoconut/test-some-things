@@ -1,4 +1,13 @@
 import React, { useState } from 'react';
+import { 
+  Box, 
+  Typography, 
+  Button, 
+  Grid, 
+  Container,
+  Stack
+} from '@mui/material';
+import { Add } from '@mui/icons-material';
 import AppHeader from '../shared/AppHeader';
 import LeftMenu from '../shared/LeftMenu';
 import UserHeader from '../shared/UserHeader';
@@ -6,7 +15,6 @@ import AppFooter from '../shared/AppFooter';
 import CollectionCard from '../cards/CollectionCard';
 import CreateCollectionModal from '../modals/CreateCollectionModal';
 import { mockUserData } from '../../data/mockAppData';
-import { Plus } from 'lucide-react';
 
 const AllCollectionsPage = () => {
   const [collections, setCollections] = useState(mockUserData.collections);
@@ -24,71 +32,75 @@ const AllCollectionsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-monstrino-black text-monstrino-white">
+    <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '100vh' }}>
       <AppHeader />
+      <LeftMenu />
       
-      <div className="flex">
-        <LeftMenu />
+      <Box component="main" sx={{ flexGrow: 1, ml: '200px', mt: 8 }}>
+        <UserHeader />
         
-        <div className="flex-1">
-          <UserHeader />
-          
-          {/* Main Content */}
-          <div className="p-6">
-            {/* Page Title and Actions */}
-            <div className="flex items-center justify-between mb-6">
-              <h1 className="text-2xl font-display font-bold text-monstrino-pink">
-                All Collections
-              </h1>
-              <button
+        <Container maxWidth="xl" sx={{ py: 3 }}>
+          {/* Page Title and Actions */}
+          <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                color: 'primary.main',
+                fontWeight: 800,
+                fontFamily: '"Inter", sans-serif'
+              }}
+            >
+              All Collections
+            </Typography>
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              onClick={() => setIsCreateModalOpen(true)}
+              sx={{ bgcolor: 'secondary.main' }}
+            >
+              Create Collection
+            </Button>
+          </Stack>
+
+          {/* Collections Grid - Smaller blocks */}
+          <Grid container spacing={2}>
+            {collections.map((collection) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={collection.id}>
+                <CollectionCard collection={collection} size="small" />
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Empty State */}
+          {collections.length === 0 && (
+            <Box textAlign="center" sx={{ py: 8 }}>
+              <Typography variant="h2" sx={{ mb: 2 }}>👻</Typography>
+              <Typography variant="h5" sx={{ color: 'white', mb: 1 }}>
+                No Collections Yet
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
+                Start building your monster collection today!
+              </Typography>
+              <Button
+                variant="contained"
                 onClick={() => setIsCreateModalOpen(true)}
-                className="cta-button bg-monstrino-purple hover:bg-monstrino-purple/90 text-monstrino-white px-4 py-2 rounded-full font-mono text-xs uppercase tracking-wide transition-all duration-300 flex items-center space-x-2"
+                sx={{ bgcolor: 'primary.main', color: 'black' }}
               >
-                <Plus className="w-4 h-4" />
-                <span>Create Collection</span>
-              </button>
-            </div>
+                Create Your First Collection
+              </Button>
+            </Box>
+          )}
+        </Container>
 
-            {/* Collections Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {collections.map((collection) => (
-                <CollectionCard 
-                  key={collection.id} 
-                  collection={collection} 
-                />
-              ))}
-            </div>
-
-            {/* Empty State */}
-            {collections.length === 0 && (
-              <div className="text-center py-16">
-                <div className="text-6xl mb-4">👻</div>
-                <h3 className="text-xl font-semibold text-monstrino-white mb-2">
-                  No Collections Yet
-                </h3>
-                <p className="text-monstrino-white/60 mb-6">
-                  Start building your monster collection today!
-                </p>
-                <button
-                  onClick={() => setIsCreateModalOpen(true)}
-                  className="cta-button bg-monstrino-pink hover:bg-monstrino-pink/90 text-monstrino-black px-6 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300"
-                >
-                  Create Your First Collection
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <AppFooter />
+        <AppFooter />
+      </Box>
 
       <CreateCollectionModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onSubmit={handleCreateCollection}
       />
-    </div>
+    </Box>
   );
 };
 

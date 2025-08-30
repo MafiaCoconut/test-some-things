@@ -1,8 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FolderOpen, Calendar } from 'lucide-react';
+import { 
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Box,
+  Chip,
+  Stack
+} from '@mui/material';
+import { FolderOpen, CalendarToday } from '@mui/icons-material';
 
-const CollectionCard = ({ collection }) => {
+const CollectionCard = ({ collection, size = 'medium' }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -17,66 +26,122 @@ const CollectionCard = ({ collection }) => {
     });
   };
 
+  const getCardHeight = () => {
+    switch (size) {
+      case 'small': return 200;
+      case 'medium': return 250;
+      case 'large': return 300;
+      default: return 250;
+    }
+  };
+
+  const getImageHeight = () => {
+    switch (size) {
+      case 'small': return 120;
+      case 'medium': return 150;
+      case 'large': return 180;
+      default: return 150;
+    }
+  };
+
   return (
-    <div 
+    <Card
       onClick={handleClick}
-      className="project-card bg-monstrino-purple/20 hover:bg-monstrino-purple/30 border border-monstrino-purple/30 rounded-lg p-6 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-monstrino-purple/20"
+      sx={{
+        height: getCardHeight(),
+        bgcolor: 'rgba(139, 95, 191, 0.1)',
+        border: 1,
+        borderColor: 'rgba(139, 95, 191, 0.3)',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: 'scale(1.05)',
+          boxShadow: '0 8px 24px rgba(139, 95, 191, 0.2)',
+        },
+      }}
     >
-      {/* Collection Image */}
-      <div className="aspect-square mb-4 rounded-lg overflow-hidden bg-monstrino-black/50">
-        {collection.coverImage ? (
-          <img 
-            src={collection.coverImage} 
-            alt={collection.name}
-            className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <FolderOpen className="w-12 h-12 text-monstrino-purple" />
-          </div>
-        )}
-      </div>
-
-      {/* Collection Info */}
-      <div className="space-y-3">
-        <h3 className="card-heading text-lg font-semibold text-monstrino-white hover:text-monstrino-pink transition-colors duration-150">
+      <CardMedia
+        component="img"
+        height={getImageHeight()}
+        image={collection.coverImage || 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop'}
+        alt={collection.name}
+        sx={{ 
+          objectFit: 'cover',
+          bgcolor: 'rgba(0, 0, 0, 0.5)'
+        }}
+      />
+      
+      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Typography 
+          variant={size === 'small' ? 'subtitle2' : 'h6'} 
+          sx={{ 
+            color: 'white',
+            fontWeight: 600,
+            mb: 1,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+        >
           {collection.name}
-        </h3>
+        </Typography>
         
-        <p className="body-medium text-sm text-monstrino-white/70 line-clamp-2">
+        <Typography 
+          variant="body2" 
+          sx={{ 
+            color: 'text.secondary',
+            mb: 2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: size === 'small' ? 1 : 2,
+            WebkitBoxOrient: 'vertical',
+            flexGrow: 1
+          }}
+        >
           {collection.description}
-        </p>
+        </Typography>
 
-        {/* Stats */}
-        <div className="flex items-center justify-between text-xs">
-          <div className="flex items-center space-x-1 text-monstrino-pink">
-            <FolderOpen className="w-3 h-3" />
-            <span className="font-mono uppercase tracking-wide">
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <FolderOpen sx={{ fontSize: 14, color: 'primary.main' }} />
+            <Typography variant="caption" sx={{ color: 'primary.main' }}>
               {collection.dollsCount} {collection.dollsCount === 1 ? 'Doll' : 'Dolls'}
-            </span>
-          </div>
+            </Typography>
+          </Box>
           
-          <div className="flex items-center space-x-1 text-monstrino-white/50">
-            <Calendar className="w-3 h-3" />
-            <span className="font-mono">
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <CalendarToday sx={{ fontSize: 12, color: 'text.secondary' }} />
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
               {formatDate(collection.createdAt)}
-            </span>
-          </div>
-        </div>
+            </Typography>
+          </Box>
+        </Stack>
 
-        {/* Tags */}
-        <div className="flex flex-wrap gap-2">
-          <span className="service-button bg-monstrino-purple/50 text-monstrino-white px-2 py-1 rounded-full font-mono text-xs uppercase tracking-wide">
-            Collection
-          </span>
+        <Stack direction="row" spacing={1}>
+          <Chip
+            label="Collection"
+            size="small"
+            sx={{
+              bgcolor: 'rgba(139, 95, 191, 0.5)',
+              color: 'white',
+              fontSize: '0.65rem',
+            }}
+          />
           {collection.dollsCount > 10 && (
-            <span className="service-button bg-monstrino-pink/50 text-monstrino-white px-2 py-1 rounded-full font-mono text-xs uppercase tracking-wide">
-              Popular
-            </span>
+            <Chip
+              label="Popular"
+              size="small"
+              sx={{
+                bgcolor: 'rgba(255, 105, 180, 0.5)',
+                color: 'white',
+                fontSize: '0.65rem',
+              }}
+            />
           )}
-        </div>
-      </div>
-    </div>
+        </Stack>
+      </CardContent>
+    </Card>
   );
 };
 

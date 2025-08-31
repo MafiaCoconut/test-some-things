@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
-import { X, Plus, Upload } from 'lucide-react';
+import { 
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Box,
+  Typography,
+  IconButton,
+  Stack,
+  Grid
+} from '@mui/material';
+import { Close, Add, CloudUpload } from '@mui/icons-material';
 
 const AddDollModal = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -34,144 +47,192 @@ const AddDollModal = ({ isOpen, onClose, onSubmit }) => {
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-monstrino-black border border-monstrino-purple/30 rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl shadow-monstrino-purple/20">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-monstrino-purple/20">
-          <div className="flex items-center space-x-2">
-            <Plus className="w-5 h-5 text-monstrino-pink" />
-            <h2 className="text-xl font-display font-bold text-monstrino-pink">
-              Add New Doll
-            </h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-monstrino-white/60 hover:text-monstrino-white transition-colors duration-150"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+    <Dialog 
+      open={isOpen} 
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: {
+          bgcolor: 'background.default',
+          border: 1,
+          borderColor: 'rgba(139, 95, 191, 0.3)',
+        }
+      }}
+    >
+      <DialogTitle sx={{ 
+        bgcolor: 'background.default',
+        borderBottom: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Add sx={{ color: 'primary.main' }} />
+          <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 800 }}>
+            Add New Doll
+          </Typography>
+        </Stack>
+        <IconButton onClick={onClose} sx={{ color: 'text.secondary' }}>
+          <Close />
+        </IconButton>
+      </DialogTitle>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Doll Name */}
-          <div className="space-y-2">
-            <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-              Doll Name *
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="e.g., Draculaura, Clawdeen Wolf"
-              className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg px-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
-              required
-            />
-          </div>
+      <DialogContent sx={{ bgcolor: 'background.default' }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <TextField
+            name="name"
+            label="Doll Name *"
+            value={formData.name}
+            onChange={handleInputChange}
+            fullWidth
+            required
+            sx={{ mb: 3 }}
+            InputLabelProps={{
+              sx: { 
+                color: 'text.secondary',
+                fontFamily: '"Fira Code", monospace',
+                textTransform: 'uppercase',
+                fontSize: '0.75rem'
+              }
+            }}
+            placeholder="e.g., Draculaura, Clawdeen Wolf"
+          />
 
-          {/* Character Type */}
-          <div className="space-y-2">
-            <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-              Character Type *
-            </label>
-            <input
-              type="text"
-              name="character"
-              value={formData.character}
-              onChange={handleInputChange}
-              placeholder="e.g., Vampire, Werewolf, Zombie"
-              className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg px-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
-              required
-            />
-          </div>
+          <TextField
+            name="character"
+            label="Character Type *"
+            value={formData.character}
+            onChange={handleInputChange}
+            fullWidth
+            required
+            sx={{ mb: 3 }}
+            InputLabelProps={{
+              sx: { 
+                color: 'text.secondary',
+                fontFamily: '"Fira Code", monospace',
+                textTransform: 'uppercase',
+                fontSize: '0.75rem'
+              }
+            }}
+            placeholder="e.g., Vampire, Werewolf, Zombie"
+          />
 
-          {/* Series and Year */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-                Series
-              </label>
-              <input
-                type="text"
+          <Grid container spacing={2} sx={{ mb: 3 }}>
+            <Grid item xs={6}>
+              <TextField
                 name="series"
+                label="Series"
                 value={formData.series}
                 onChange={handleInputChange}
+                fullWidth
+                InputLabelProps={{
+                  sx: { 
+                    color: 'text.secondary',
+                    fontFamily: '"Fira Code", monospace',
+                    textTransform: 'uppercase',
+                    fontSize: '0.75rem'
+                  }
+                }}
                 placeholder="e.g., Original, G3"
-                className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg px-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
               />
-            </div>
-            <div className="space-y-2">
-              <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-                Year
-              </label>
-              <input
-                type="number"
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
                 name="year"
+                label="Year"
+                type="number"
                 value={formData.year}
                 onChange={handleInputChange}
-                min="2010"
-                max={new Date().getFullYear()}
-                className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg px-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
+                fullWidth
+                inputProps={{
+                  min: 2010,
+                  max: new Date().getFullYear()
+                }}
+                InputLabelProps={{
+                  sx: { 
+                    color: 'text.secondary',
+                    fontFamily: '"Fira Code", monospace',
+                    textTransform: 'uppercase',
+                    fontSize: '0.75rem'
+                  }
+                }}
               />
-            </div>
-          </div>
+            </Grid>
+          </Grid>
 
-          {/* Image URL */}
-          <div className="space-y-2">
-            <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-              Image URL (Optional)
-            </label>
-            <div className="relative">
-              <Upload className="absolute left-3 top-1/2 transform -translate-y-1/2 text-monstrino-purple w-5 h-5" />
-              <input
-                type="url"
-                name="image"
-                value={formData.image}
-                onChange={handleInputChange}
-                placeholder="https://example.com/doll-image.jpg"
-                className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg pl-12 pr-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
-              />
-            </div>
-          </div>
+          <TextField
+            name="image"
+            label="Image URL (Optional)"
+            value={formData.image}
+            onChange={handleInputChange}
+            fullWidth
+            sx={{ mb: 3 }}
+            InputProps={{
+              startAdornment: <CloudUpload sx={{ color: 'secondary.main', mr: 1 }} />,
+            }}
+            InputLabelProps={{
+              sx: { 
+                color: 'text.secondary',
+                fontFamily: '"Fira Code", monospace',
+                textTransform: 'uppercase',
+                fontSize: '0.75rem'
+              }
+            }}
+            placeholder="https://example.com/doll-image.jpg"
+          />
 
-          {/* Description */}
-          <div className="space-y-2">
-            <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-              Description
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              placeholder="Special details about this doll..."
-              rows={3}
-              className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg px-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent resize-none"
-            />
-          </div>
+          <TextField
+            name="description"
+            label="Description"
+            value={formData.description}
+            onChange={handleInputChange}
+            fullWidth
+            multiline
+            rows={3}
+            InputLabelProps={{
+              sx: { 
+                color: 'text.secondary',
+                fontFamily: '"Fira Code", monospace',
+                textTransform: 'uppercase',
+                fontSize: '0.75rem'
+              }
+            }}
+            placeholder="Special details about this doll..."
+          />
+        </Box>
+      </DialogContent>
 
-          {/* Actions */}
-          <div className="flex space-x-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 bg-transparent border border-monstrino-white/30 text-monstrino-white px-4 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300 hover:bg-monstrino-white/10"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="flex-1 cta-button bg-monstrino-pink hover:bg-monstrino-pink/90 text-monstrino-black px-4 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300"
-            >
-              Add Doll
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+      <DialogActions sx={{ 
+        bgcolor: 'background.default',
+        borderTop: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        p: 2
+      }}>
+        <Button 
+          onClick={onClose}
+          variant="outlined"
+          sx={{ 
+            borderColor: 'rgba(255, 255, 255, 0.3)',
+            color: 'white'
+          }}
+        >
+          Cancel
+        </Button>
+        <Button 
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{ 
+            bgcolor: 'primary.main',
+            color: 'black'
+          }}
+        >
+          Add Doll
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

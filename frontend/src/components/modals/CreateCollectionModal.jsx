@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
-import { X, Upload, FolderPlus } from 'lucide-react';
+import { 
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Box,
+  Typography,
+  IconButton,
+  Stack
+} from '@mui/material';
+import { Close, FolderOpen, CloudUpload } from '@mui/icons-material';
 
 const CreateCollectionModal = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -24,122 +36,154 @@ const CreateCollectionModal = ({ isOpen, onClose, onSubmit }) => {
     }
   };
 
-  const handleImageUrlChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      coverImage: e.target.value
-    }));
-  };
-
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-monstrino-black border border-monstrino-purple/30 rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl shadow-monstrino-purple/20">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-monstrino-purple/20">
-          <div className="flex items-center space-x-2">
-            <FolderPlus className="w-5 h-5 text-monstrino-pink" />
-            <h2 className="text-xl font-display font-bold text-monstrino-pink">
-              Create Collection
-            </h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-monstrino-white/60 hover:text-monstrino-white transition-colors duration-150"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+    <Dialog 
+      open={isOpen} 
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: {
+          bgcolor: 'background.default',
+          border: 1,
+          borderColor: 'rgba(139, 95, 191, 0.3)',
+        }
+      }}
+    >
+      <DialogTitle sx={{ 
+        bgcolor: 'background.default',
+        borderBottom: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <FolderOpen sx={{ color: 'primary.main' }} />
+          <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 800 }}>
+            Create Collection
+          </Typography>
+        </Stack>
+        <IconButton onClick={onClose} sx={{ color: 'text.secondary' }}>
+          <Close />
+        </IconButton>
+      </DialogTitle>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Collection Name */}
-          <div className="space-y-2">
-            <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-              Collection Name *
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              placeholder="Enter collection name"
-              className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg px-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
-              required
-            />
-          </div>
+      <DialogContent sx={{ bgcolor: 'background.default' }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <TextField
+            name="name"
+            label="Collection Name"
+            value={formData.name}
+            onChange={handleInputChange}
+            fullWidth
+            required
+            sx={{ mb: 3 }}
+            InputLabelProps={{
+              sx: { 
+                color: 'text.secondary',
+                fontFamily: '"Fira Code", monospace',
+                textTransform: 'uppercase',
+                fontSize: '0.75rem'
+              }
+            }}
+            placeholder="Enter collection name"
+          />
 
-          {/* Description */}
-          <div className="space-y-2">
-            <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-              Description
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-              placeholder="Describe your collection..."
-              rows={3}
-              className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg px-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent resize-none"
-            />
-          </div>
+          <TextField
+            name="description"
+            label="Description"
+            value={formData.description}
+            onChange={handleInputChange}
+            fullWidth
+            multiline
+            rows={3}
+            sx={{ mb: 3 }}
+            InputLabelProps={{
+              sx: { 
+                color: 'text.secondary',
+                fontFamily: '"Fira Code", monospace',
+                textTransform: 'uppercase',
+                fontSize: '0.75rem'
+              }
+            }}
+            placeholder="Describe your collection..."
+          />
 
-          {/* Cover Image URL */}
-          <div className="space-y-2">
-            <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
-              Cover Image URL (Optional)
-            </label>
-            <div className="relative">
-              <Upload className="absolute left-3 top-1/2 transform -translate-y-1/2 text-monstrino-purple w-5 h-5" />
-              <input
-                type="url"
-                value={formData.coverImage}
-                onChange={handleImageUrlChange}
-                placeholder="https://example.com/image.jpg"
-                className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg pl-12 pr-4 py-3 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
-              />
-            </div>
-          </div>
+          <TextField
+            name="coverImage"
+            label="Cover Image URL (Optional)"
+            value={formData.coverImage}
+            onChange={handleInputChange}
+            fullWidth
+            sx={{ mb: 2 }}
+            InputProps={{
+              startAdornment: <CloudUpload sx={{ color: 'secondary.main', mr: 1 }} />,
+            }}
+            InputLabelProps={{
+              sx: { 
+                color: 'text.secondary',
+                fontFamily: '"Fira Code", monospace',
+                textTransform: 'uppercase',
+                fontSize: '0.75rem'
+              }
+            }}
+            placeholder="https://example.com/image.jpg"
+          />
 
-          {/* Image Preview */}
           {formData.coverImage && (
-            <div className="space-y-2">
-              <label className="text-monstrino-white text-sm font-mono uppercase tracking-wide">
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', mb: 1, display: 'block' }}>
                 Preview
-              </label>
-              <div className="aspect-video rounded-lg overflow-hidden bg-monstrino-black/50">
-                <img 
-                  src={formData.coverImage} 
-                  alt="Cover preview"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                  }}
-                />
-              </div>
-            </div>
+              </Typography>
+              <Box 
+                component="img"
+                src={formData.coverImage}
+                alt="Cover preview"
+                sx={{
+                  width: '100%',
+                  height: 150,
+                  objectFit: 'cover',
+                  borderRadius: 1,
+                  bgcolor: 'rgba(0, 0, 0, 0.5)'
+                }}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            </Box>
           )}
+        </Box>
+      </DialogContent>
 
-          {/* Actions */}
-          <div className="flex space-x-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 bg-transparent border border-monstrino-white/30 text-monstrino-white px-4 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300 hover:bg-monstrino-white/10"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="flex-1 cta-button bg-monstrino-pink hover:bg-monstrino-pink/90 text-monstrino-black px-4 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300"
-            >
-              Create Collection
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+      <DialogActions sx={{ 
+        bgcolor: 'background.default',
+        borderTop: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        p: 2
+      }}>
+        <Button 
+          onClick={onClose}
+          variant="outlined"
+          sx={{ 
+            borderColor: 'rgba(255, 255, 255, 0.3)',
+            color: 'white'
+          }}
+        >
+          Cancel
+        </Button>
+        <Button 
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{ 
+            bgcolor: 'primary.main',
+            color: 'black'
+          }}
+        >
+          Create Collection
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

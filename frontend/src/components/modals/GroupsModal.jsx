@@ -1,5 +1,22 @@
 import React, { useState } from 'react';
-import { X, MessageSquare, Users, Search, Plus } from 'lucide-react';
+import { 
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Box,
+  Typography,
+  IconButton,
+  Stack,
+  List,
+  ListItem,
+  Avatar,
+  Card,
+  CardContent
+} from '@mui/material';
+import { Close, Forum, Add, Search, People } from '@mui/icons-material';
 
 const GroupsModal = ({ isOpen, onClose, groups }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -9,113 +26,185 @@ const GroupsModal = ({ isOpen, onClose, groups }) => {
     group.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-monstrino-black border border-monstrino-purple/30 rounded-lg max-w-lg w-full max-h-[80vh] shadow-2xl shadow-monstrino-purple/20">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-monstrino-purple/20">
-          <div className="flex items-center space-x-2">
-            <MessageSquare className="w-5 h-5 text-monstrino-pink" />
-            <h2 className="text-xl font-display font-bold text-monstrino-pink">
-              My Groups ({groups.length})
-            </h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-monstrino-white/60 hover:text-monstrino-white transition-colors duration-150"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+    <Dialog 
+      open={isOpen} 
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      PaperProps={{
+        sx: {
+          bgcolor: 'background.default',
+          border: 1,
+          borderColor: 'rgba(139, 95, 191, 0.3)',
+          maxHeight: '80vh'
+        }
+      }}
+    >
+      <DialogTitle sx={{ 
+        bgcolor: 'background.default',
+        borderBottom: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Forum sx={{ color: 'primary.main' }} />
+          <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 800 }}>
+            My Groups ({groups.length})
+          </Typography>
+        </Stack>
+        <IconButton onClick={onClose} sx={{ color: 'text.secondary' }}>
+          <Close />
+        </IconButton>
+      </DialogTitle>
 
+      <DialogContent sx={{ bgcolor: 'background.default', p: 0 }}>
         {/* Search */}
-        <div className="p-4 border-b border-monstrino-purple/20">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-monstrino-purple w-4 h-4" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search groups..."
-              className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg pl-10 pr-4 py-2 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
-            />
-          </div>
-        </div>
+        <Box sx={{ p: 2, borderBottom: 1, borderColor: 'rgba(139, 95, 191, 0.2)' }}>
+          <TextField
+            fullWidth
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search groups..."
+            size="small"
+            InputProps={{
+              startAdornment: <Search sx={{ color: 'secondary.main', mr: 1 }} />,
+            }}
+          />
+        </Box>
 
         {/* Groups List */}
-        <div className="p-4 space-y-4 max-h-96 overflow-y-auto">
-          {filteredGroups.map((group) => (
-            <div key={group.id} className="project-card bg-monstrino-white/5 hover:bg-monstrino-white/10 border border-monstrino-purple/20 rounded-lg p-4 transition-all duration-300">
-              <div className="flex items-start space-x-3">
-                {/* Group Image */}
-                <div className="w-12 h-12 rounded-lg bg-monstrino-purple flex items-center justify-center overflow-hidden">
-                  {group.image ? (
-                    <img 
-                      src={group.image} 
-                      alt={group.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <MessageSquare className="w-6 h-6 text-monstrino-white" />
-                  )}
-                </div>
+        <Box sx={{ p: 2, maxHeight: 400, overflow: 'auto' }}>
+          <Stack spacing={2}>
+            {filteredGroups.map((group) => (
+              <Card
+                key={group.id}
+                sx={{
+                  bgcolor: 'rgba(255, 255, 255, 0.05)',
+                  border: 1,
+                  borderColor: 'rgba(139, 95, 191, 0.2)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    bgcolor: 'rgba(255, 255, 255, 0.1)',
+                  },
+                }}
+              >
+                <CardContent>
+                  <Stack direction="row" spacing={2}>
+                    {/* Group Image */}
+                    <Avatar
+                      src={group.image}
+                      sx={{
+                        width: 48,
+                        height: 48,
+                        bgcolor: 'secondary.main'
+                      }}
+                    >
+                      {!group.image && <Forum />}
+                    </Avatar>
 
-                {/* Group Info */}
-                <div className="flex-1">
-                  <h3 className="font-semibold text-monstrino-white mb-1">
-                    {group.name}
-                  </h3>
-                  <p className="text-sm text-monstrino-white/70 mb-2 leading-relaxed">
-                    {group.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-1 text-monstrino-purple">
-                      <Users className="w-3 h-3" />
-                      <span className="text-xs font-mono">
-                        {group.members} members
-                      </span>
-                    </div>
-                    
-                    <div className="flex space-x-2">
-                      <button className="text-monstrino-pink hover:text-monstrino-white font-mono text-xs uppercase tracking-wide">
-                        View
-                      </button>
-                      <button className="text-red-400 hover:text-red-300 font-mono text-xs uppercase tracking-wide">
-                        Leave
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                    {/* Group Info */}
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography variant="h6" sx={{ color: 'white', mb: 0.5 }}>
+                        {group.name}
+                      </Typography>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: 'text.secondary',
+                          mb: 1,
+                          lineHeight: 1.4
+                        }}
+                      >
+                        {group.description}
+                      </Typography>
+                      
+                      <Stack direction="row" justifyContent="space-between" alignItems="center">
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          <People sx={{ fontSize: 14, color: 'secondary.main' }} />
+                          <Typography 
+                            variant="caption" 
+                            sx={{ 
+                              color: 'secondary.main',
+                              fontFamily: '"Fira Code", monospace'
+                            }}
+                          >
+                            {group.members} members
+                          </Typography>
+                        </Box>
+                        
+                        <Stack direction="row" spacing={1}>
+                          <Button 
+                            size="small" 
+                            sx={{ 
+                              color: 'primary.main',
+                              fontSize: '0.7rem'
+                            }}
+                          >
+                            View
+                          </Button>
+                          <Button 
+                            size="small" 
+                            sx={{ 
+                              color: 'error.main',
+                              fontSize: '0.7rem'
+                            }}
+                          >
+                            Leave
+                          </Button>
+                        </Stack>
+                      </Stack>
+                    </Box>
+                  </Stack>
+                </CardContent>
+              </Card>
+            ))}
 
-          {filteredGroups.length === 0 && (
-            <div className="text-center py-8">
-              <MessageSquare className="w-12 h-12 text-monstrino-purple mx-auto mb-3" />
-              <p className="text-monstrino-white/60">
-                {searchTerm ? 'No groups found' : 'No groups yet'}
-              </p>
-            </div>
-          )}
-        </div>
+            {filteredGroups.length === 0 && (
+              <Box textAlign="center" sx={{ py: 4 }}>
+                <Forum sx={{ fontSize: 48, color: 'secondary.main', mb: 2 }} />
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  {searchTerm ? 'No groups found' : 'No groups yet'}
+                </Typography>
+              </Box>
+            )}
+          </Stack>
+        </Box>
+      </DialogContent>
 
-        {/* Actions */}
-        <div className="p-4 border-t border-monstrino-purple/20 space-y-3">
-          <button className="w-full cta-button bg-monstrino-purple hover:bg-monstrino-purple/90 text-monstrino-white px-4 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300 flex items-center justify-center space-x-2">
-            <Plus className="w-4 h-4" />
-            <span>Join Group</span>
-          </button>
+      <DialogActions sx={{ 
+        bgcolor: 'background.default',
+        borderTop: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        p: 2
+      }}>
+        <Stack spacing={1} sx={{ width: '100%' }}>
+          <Button 
+            variant="contained"
+            startIcon={<Add />}
+            fullWidth
+            sx={{ 
+              bgcolor: 'secondary.main'
+            }}
+          >
+            Join Group
+          </Button>
           
-          <button className="w-full bg-transparent border border-monstrino-white/30 text-monstrino-white px-4 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300 hover:bg-monstrino-white/10">
+          <Button 
+            variant="outlined"
+            fullWidth
+            sx={{ 
+              borderColor: 'rgba(255, 255, 255, 0.3)',
+              color: 'white'
+            }}
+          >
             Browse All Groups
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Stack>
+      </DialogActions>
+    </Dialog>
   );
 };
 

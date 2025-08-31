@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
-import { X, Users, UserPlus, Search, Circle } from 'lucide-react';
+import { 
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Box,
+  Typography,
+  IconButton,
+  Stack,
+  List,
+  ListItem,
+  Avatar,
+  Chip
+} from '@mui/material';
+import { Close, People, PersonAdd, Search, Circle } from '@mui/icons-material';
 
 const FriendsModal = ({ isOpen, onClose, friends }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -10,9 +26,9 @@ const FriendsModal = ({ isOpen, onClose, friends }) => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'online': return 'text-monstrino-green';
-      case 'away': return 'text-monstrino-yellow';
-      default: return 'text-monstrino-white/30';
+      case 'online': return 'success.main';
+      case 'away': return 'warning.main';
+      default: return 'rgba(255, 255, 255, 0.3)';
     }
   };
 
@@ -24,102 +40,169 @@ const FriendsModal = ({ isOpen, onClose, friends }) => {
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-monstrino-black border border-monstrino-purple/30 rounded-lg max-w-md w-full max-h-[80vh] shadow-2xl shadow-monstrino-purple/20">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-monstrino-purple/20">
-          <div className="flex items-center space-x-2">
-            <Users className="w-5 h-5 text-monstrino-pink" />
-            <h2 className="text-xl font-display font-bold text-monstrino-pink">
-              My Friends ({friends.length})
-            </h2>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-monstrino-white/60 hover:text-monstrino-white transition-colors duration-150"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
+    <Dialog 
+      open={isOpen} 
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
+      PaperProps={{
+        sx: {
+          bgcolor: 'background.default',
+          border: 1,
+          borderColor: 'rgba(139, 95, 191, 0.3)',
+          maxHeight: '80vh'
+        }
+      }}
+    >
+      <DialogTitle sx={{ 
+        bgcolor: 'background.default',
+        borderBottom: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <People sx={{ color: 'primary.main' }} />
+          <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 800 }}>
+            My Friends ({friends.length})
+          </Typography>
+        </Stack>
+        <IconButton onClick={onClose} sx={{ color: 'text.secondary' }}>
+          <Close />
+        </IconButton>
+      </DialogTitle>
 
+      <DialogContent sx={{ bgcolor: 'background.default', p: 0 }}>
         {/* Search */}
-        <div className="p-4 border-b border-monstrino-purple/20">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-monstrino-purple w-4 h-4" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search friends..."
-              className="w-full bg-monstrino-white/10 border border-monstrino-purple/30 rounded-lg pl-10 pr-4 py-2 text-monstrino-white placeholder-monstrino-white/60 focus:outline-none focus:ring-2 focus:ring-monstrino-pink focus:border-transparent"
-            />
-          </div>
-        </div>
+        <Box sx={{ p: 2, borderBottom: 1, borderColor: 'rgba(139, 95, 191, 0.2)' }}>
+          <TextField
+            fullWidth
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search friends..."
+            size="small"
+            InputProps={{
+              startAdornment: <Search sx={{ color: 'secondary.main', mr: 1 }} />,
+            }}
+          />
+        </Box>
 
         {/* Friends List */}
-        <div className="p-4 space-y-3 max-h-96 overflow-y-auto">
+        <List sx={{ maxHeight: 400, overflow: 'auto' }}>
           {filteredFriends.map((friend) => (
-            <div key={friend.id} className="flex items-center space-x-3 p-3 bg-monstrino-white/5 rounded-lg hover:bg-monstrino-white/10 transition-colors duration-150">
-              {/* Avatar */}
-              <div className="w-10 h-10 rounded-full bg-monstrino-pink flex items-center justify-center overflow-hidden relative">
-                {friend.avatar ? (
-                  <img 
-                    src={friend.avatar} 
-                    alt={friend.username}
-                    className="w-full h-full object-cover"
+            <ListItem 
+              key={friend.id}
+              sx={{
+                bgcolor: 'rgba(255, 255, 255, 0.05)',
+                mb: 1,
+                mx: 1,
+                borderRadius: 1,
+                '&:hover': {
+                  bgcolor: 'rgba(255, 255, 255, 0.1)',
+                },
+              }}
+            >
+              <Stack direction="row" alignItems="center" spacing={2} sx={{ width: '100%' }}>
+                {/* Avatar with Status */}
+                <Box sx={{ position: 'relative' }}>
+                  <Avatar
+                    src={friend.avatar}
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      bgcolor: 'primary.main',
+                      color: 'black',
+                      fontSize: '0.875rem',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {!friend.avatar && friend.username.charAt(0).toUpperCase()}
+                  </Avatar>
+                  <Circle 
+                    sx={{ 
+                      position: 'absolute',
+                      bottom: -2,
+                      right: -2,
+                      fontSize: 12,
+                      color: getStatusColor(friend.status)
+                    }} 
                   />
-                ) : (
-                  <span className="text-sm font-bold text-monstrino-black">
-                    {friend.username.charAt(0).toUpperCase()}
-                  </span>
-                )}
-                <Circle className={`absolute -bottom-1 -right-1 w-3 h-3 ${getStatusColor(friend.status)} fill-current`} />
-              </div>
+                </Box>
 
-              {/* Friend Info */}
-              <div className="flex-1">
-                <div className="font-semibold text-monstrino-white text-sm">
-                  {friend.username}
-                </div>
-                <div className={`text-xs font-mono ${getStatusColor(friend.status)}`}>
-                  {getStatusText(friend.status)}
-                </div>
-              </div>
+                {/* Friend Info */}
+                <Box sx={{ flexGrow: 1 }}>
+                  <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 600 }}>
+                    {friend.username}
+                  </Typography>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      color: getStatusColor(friend.status),
+                      fontFamily: '"Fira Code", monospace'
+                    }}
+                  >
+                    {getStatusText(friend.status)}
+                  </Typography>
+                </Box>
 
-              {/* Actions */}
-              <div className="flex space-x-2">
-                <button className="text-monstrino-purple hover:text-monstrino-pink font-mono text-xs uppercase tracking-wide">
-                  Message
-                </button>
-                <button className="text-monstrino-white/60 hover:text-red-400 font-mono text-xs uppercase tracking-wide">
-                  Remove
-                </button>
-              </div>
-            </div>
+                {/* Actions */}
+                <Stack direction="row" spacing={1}>
+                  <Button 
+                    size="small" 
+                    sx={{ 
+                      color: 'secondary.main',
+                      minWidth: 'auto',
+                      fontSize: '0.7rem'
+                    }}
+                  >
+                    Message
+                  </Button>
+                  <Button 
+                    size="small" 
+                    sx={{ 
+                      color: 'error.main',
+                      minWidth: 'auto',
+                      fontSize: '0.7rem'
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </Stack>
+              </Stack>
+            </ListItem>
           ))}
 
           {filteredFriends.length === 0 && (
-            <div className="text-center py-8">
-              <Users className="w-12 h-12 text-monstrino-purple mx-auto mb-3" />
-              <p className="text-monstrino-white/60">
+            <Box textAlign="center" sx={{ py: 4 }}>
+              <People sx={{ fontSize: 48, color: 'secondary.main', mb: 2 }} />
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {searchTerm ? 'No friends found' : 'No friends yet'}
-              </p>
-            </div>
+              </Typography>
+            </Box>
           )}
-        </div>
+        </List>
+      </DialogContent>
 
-        {/* Actions */}
-        <div className="p-4 border-t border-monstrino-purple/20">
-          <button className="w-full cta-button bg-monstrino-purple hover:bg-monstrino-purple/90 text-monstrino-white px-4 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300 flex items-center justify-center space-x-2">
-            <UserPlus className="w-4 h-4" />
-            <span>Add Friend</span>
-          </button>
-        </div>
-      </div>
-    </div>
+      <DialogActions sx={{ 
+        bgcolor: 'background.default',
+        borderTop: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        p: 2
+      }}>
+        <Button 
+          variant="contained"
+          startIcon={<PersonAdd />}
+          fullWidth
+          sx={{ 
+            bgcolor: 'secondary.main'
+          }}
+        >
+          Add Friend
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

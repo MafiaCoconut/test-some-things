@@ -1,5 +1,14 @@
 import React from 'react';
-import { Heart, MessageCircle, Calendar } from 'lucide-react';
+import { 
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  IconButton,
+  Stack,
+  Divider
+} from '@mui/material';
+import { Favorite, ChatBubbleOutline, CalendarToday } from '@mui/icons-material';
 
 const PostCard = ({ post }) => {
   const formatDate = (dateString) => {
@@ -17,49 +26,123 @@ const PostCard = ({ post }) => {
   };
 
   return (
-    <div className="project-card bg-monstrino-white/5 hover:bg-monstrino-white/10 border border-monstrino-purple/20 rounded-lg p-4 transition-all duration-300">
-      {/* Post Header */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center space-x-2">
-          <Calendar className="w-4 h-4 text-monstrino-purple" />
-          <span className="text-monstrino-white/60 text-sm font-mono">
+    <Card
+      sx={{
+        bgcolor: 'rgba(255, 255, 255, 0.05)',
+        border: 1,
+        borderColor: 'rgba(139, 95, 191, 0.2)',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          bgcolor: 'rgba(255, 255, 255, 0.1)',
+        },
+      }}
+    >
+      <CardContent>
+        {/* Post Header */}
+        <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
+          <CalendarToday sx={{ fontSize: 16, color: 'secondary.main' }} />
+          <Typography 
+            variant="caption" 
+            sx={{ 
+              color: 'text.secondary',
+              fontFamily: '"Fira Code", monospace'
+            }}
+          >
             {formatDate(post.date)}
-          </span>
-        </div>
-      </div>
+          </Typography>
+        </Stack>
 
-      {/* Post Content */}
-      <div className="space-y-3">
-        {post.title && (
-          <h3 className="font-semibold text-monstrino-white text-lg leading-tight">
-            {post.title}
-          </h3>
-        )}
-        
-        <p className="text-monstrino-white/80 leading-relaxed">
-          {post.text}
-        </p>
-      </div>
-
-      {/* Post Actions */}
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-monstrino-purple/20">
-        <div className="flex items-center space-x-4">
-          <button className="flex items-center space-x-1 text-monstrino-pink hover:text-monstrino-white transition-colors duration-150">
-            <Heart className="w-4 h-4" />
-            <span className="text-sm font-mono">{post.likes}</span>
-          </button>
+        {/* Post Content */}
+        <Box sx={{ mb: 2 }}>
+          {post.title && (
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: 'white',
+                fontWeight: 600,
+                mb: 1
+              }}
+            >
+              {post.title}
+            </Typography>
+          )}
           
-          <button className="flex items-center space-x-1 text-monstrino-blue hover:text-monstrino-white transition-colors duration-150">
-            <MessageCircle className="w-4 h-4" />
-            <span className="text-sm font-mono">{post.comments}</span>
-          </button>
-        </div>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              color: 'rgba(255, 255, 255, 0.8)',
+              lineHeight: 1.6
+            }}
+          >
+            {post.text}
+          </Typography>
+        </Box>
 
-        <button className="text-monstrino-purple hover:text-monstrino-pink transition-colors duration-150 font-mono text-xs uppercase tracking-wide">
-          View Post
-        </button>
-      </div>
-    </div>
+        <Divider sx={{ borderColor: 'rgba(139, 95, 191, 0.2)', mb: 2 }} />
+
+        {/* Post Actions */}
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Stack direction="row" spacing={2}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <IconButton 
+                size="small" 
+                sx={{ 
+                  color: 'primary.main',
+                  '&:hover': { color: 'white' }
+                }}
+              >
+                <Favorite fontSize="small" />
+              </IconButton>
+              <Typography 
+                variant="caption" 
+                sx={{ 
+                  fontFamily: '"Fira Code", monospace',
+                  color: 'primary.main'
+                }}
+              >
+                {post.likes}
+              </Typography>
+            </Box>
+            
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <IconButton 
+                size="small" 
+                sx={{ 
+                  color: 'info.main',
+                  '&:hover': { color: 'white' }
+                }}
+              >
+                <ChatBubbleOutline fontSize="small" />
+              </IconButton>
+              <Typography 
+                variant="caption" 
+                sx={{ 
+                  fontFamily: '"Fira Code", monospace',
+                  color: 'info.main'
+                }}
+              >
+                {post.comments}
+              </Typography>
+            </Box>
+          </Stack>
+
+          <Typography
+            variant="caption"
+            sx={{
+              color: 'secondary.main',
+              fontFamily: '"Fira Code", monospace',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'primary.main',
+              },
+            }}
+          >
+            View Post
+          </Typography>
+        </Stack>
+      </CardContent>
+    </Card>
   );
 };
 

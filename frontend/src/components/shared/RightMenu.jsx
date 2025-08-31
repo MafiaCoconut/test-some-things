@@ -1,5 +1,17 @@
 import React from 'react';
-import { Plus, Palette, FolderPlus } from 'lucide-react';
+import { 
+  Drawer, 
+  List, 
+  ListItem, 
+  ListItemButton, 
+  ListItemIcon, 
+  ListItemText,
+  Box,
+  Typography,
+  Paper,
+  Divider
+} from '@mui/material';
+import { Palette, Add, CreateNewFolder } from '@mui/icons-material';
 
 const RightMenu = ({ onAddDoll }) => {
   const menuItems = [
@@ -7,59 +19,128 @@ const RightMenu = ({ onAddDoll }) => {
       icon: Palette, 
       label: 'Change Colors', 
       action: () => console.log('Change colors clicked'),
-      color: 'monstrino-purple'
+      color: 'secondary.main'
     },
     { 
-      icon: Plus, 
+      icon: Add, 
       label: 'Add Item', 
       action: onAddDoll,
-      color: 'monstrino-pink'
+      color: 'primary.main'
     },
     { 
-      icon: FolderPlus, 
+      icon: CreateNewFolder, 
       label: 'Create Collection', 
       action: () => console.log('Create collection clicked'),
-      color: 'monstrino-yellow'
+      color: 'warning.main'
     },
   ];
 
   return (
-    <div className="bg-monstrino-black border-l border-monstrino-purple/20 w-48 min-h-screen p-4">
-      <h3 className="text-monstrino-pink font-mono text-xs uppercase tracking-wide mb-4">
-        Quick Actions
-      </h3>
-      
-      <div className="space-y-3">
-        {menuItems.map((item, index) => {
-          const Icon = item.icon;
-          
-          return (
-            <button
-              key={index}
-              onClick={item.action}
-              className={`w-full flex items-center space-x-3 px-3 py-3 rounded-lg text-left transition-all duration-300 hover:scale-105 bg-${item.color}/20 hover:bg-${item.color}/30 border border-${item.color}/30`}
-            >
-              <Icon className={`w-4 h-4 text-${item.color}`} />
-              <span className="font-mono text-xs uppercase tracking-wide text-monstrino-white">
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+    <Drawer
+      variant="permanent"
+      anchor="right"
+      sx={{
+        width: 200,
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: 200,
+          boxSizing: 'border-box',
+          bgcolor: 'background.default',
+          borderLeft: 1,
+          borderColor: 'rgba(139, 95, 191, 0.2)',
+          mt: 8, // Account for AppBar height
+        },
+      }}
+    >
+      <Box sx={{ p: 2 }}>
+        <Typography 
+          variant="caption" 
+          sx={{ 
+            color: 'primary.main',
+            fontFamily: '"Fira Code", monospace',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            mb: 2,
+            display: 'block'
+          }}
+        >
+          Quick Actions
+        </Typography>
+        
+        <List>
+          {menuItems.map((item, index) => {
+            const Icon = item.icon;
+            
+            return (
+              <ListItem key={index} disablePadding sx={{ mb: 1 }}>
+                <ListItemButton
+                  onClick={item.action}
+                  sx={{
+                    borderRadius: 1,
+                    bgcolor: `${item.color.replace('.main', '')}.main`,
+                    color: 'white',
+                    opacity: 0.8,
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      opacity: 1,
+                      transform: 'scale(1.05)',
+                    },
+                  }}
+                >
+                  <ListItemIcon sx={{ color: 'inherit', minWidth: 36 }}>
+                    <Icon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary={item.label}
+                    primaryTypographyProps={{
+                      fontSize: '0.75rem',
+                      fontFamily: '"Fira Code", monospace',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em'
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
 
-      {/* Collection Info */}
-      <div className="mt-8 p-3 bg-monstrino-white/5 rounded-lg border border-monstrino-purple/20">
-        <h4 className="text-monstrino-pink font-mono text-xs uppercase tracking-wide mb-2">
-          Collection Info
-        </h4>
-        <div className="space-y-2 text-xs text-monstrino-white/70">
-          <div>Created: Today</div>
-          <div>Last Updated: Just now</div>
-          <div>Visibility: Private</div>
-        </div>
-      </div>
-    </div>
+        <Divider sx={{ my: 3, borderColor: 'rgba(139, 95, 191, 0.2)' }} />
+
+        {/* Collection Info */}
+        <Paper sx={{ 
+          p: 2, 
+          bgcolor: 'rgba(255, 255, 255, 0.05)',
+          border: 1,
+          borderColor: 'rgba(139, 95, 191, 0.2)'
+        }}>
+          <Typography 
+            variant="caption" 
+            sx={{ 
+              color: 'primary.main',
+              fontFamily: '"Fira Code", monospace',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              mb: 1,
+              display: 'block'
+            }}
+          >
+            Collection Info
+          </Typography>
+          <Box sx={{ space: 1 }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+              Created: Today
+            </Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+              Last Updated: Just now
+            </Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+              Visibility: Private
+            </Typography>
+          </Box>
+        </Paper>
+      </Box>
+    </Drawer>
   );
 };
 

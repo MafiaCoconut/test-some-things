@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { 
+  Box, 
+  Typography, 
+  Container,
+  Grid,
+  Button,
+  Stack,
+  Paper,
+  Divider
+} from '@mui/material';
+import { ArrowBack, Add } from '@mui/icons-material';
 import AppHeader from '../shared/AppHeader';
 import LeftMenu from '../shared/LeftMenu';
 import UserHeader from '../shared/UserHeader';
@@ -8,7 +19,6 @@ import DollCard from '../cards/DollCard';
 import RightMenu from '../shared/RightMenu';
 import AddDollModal from '../modals/AddDollModal';
 import { mockUserData } from '../../data/mockAppData';
-import { ArrowLeft, Plus } from 'lucide-react';
 
 const CollectionPage = () => {
   const { id } = useParams();
@@ -23,17 +33,20 @@ const CollectionPage = () => {
 
   if (!collection) {
     return (
-      <div className="min-h-screen bg-monstrino-black text-monstrino-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-monstrino-pink mb-4">Collection Not Found</h1>
-          <button
+      <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '100vh', alignItems: 'center', justifyContent: 'center' }}>
+        <Paper sx={{ p: 4, textAlign: 'center', bgcolor: 'background.paper' }}>
+          <Typography variant="h4" sx={{ color: 'primary.main', mb: 2 }}>
+            Collection Not Found
+          </Typography>
+          <Button
+            variant="contained"
             onClick={() => navigate('/collections')}
-            className="cta-button bg-monstrino-purple hover:bg-monstrino-purple/90 text-monstrino-white px-6 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300"
+            sx={{ bgcolor: 'secondary.main' }}
           >
             Back to Collections
-          </button>
-        </div>
-      </div>
+          </Button>
+        </Paper>
+      </Box>
     );
   }
 
@@ -54,91 +67,98 @@ const CollectionPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-monstrino-black text-monstrino-white">
+    <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '100vh' }}>
       <AppHeader />
+      <LeftMenu />
       
-      <div className="flex">
-        <LeftMenu />
+      <Box component="main" sx={{ flexGrow: 1, ml: '200px', mr: '200px', mt: 8 }}>
+        <UserHeader />
         
-        <div className="flex-1">
-          <UserHeader />
-          
-          {/* Main Content */}
-          <div className="flex">
-            <div className="flex-1 p-6">
-              {/* Back Button and Collection Info */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center space-x-4">
-                  <button
-                    onClick={() => navigate('/collections')}
-                    className="flex items-center space-x-2 text-monstrino-pink hover:text-monstrino-white transition-colors duration-150"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span className="font-mono text-xs uppercase tracking-wide">Back</span>
-                  </button>
-                  <div>
-                    <h1 className="text-2xl font-display font-bold text-monstrino-pink">
-                      {collection.name}
-                    </h1>
-                    <p className="text-monstrino-white/70 text-sm">
-                      {collection.description}
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="text-right">
-                  <div className="text-lg font-bold text-monstrino-pink">{dolls.length}</div>
-                  <div className="text-xs text-monstrino-white/60 font-mono uppercase tracking-wide">
-                    {dolls.length === 1 ? 'Doll' : 'Dolls'}
-                  </div>
-                </div>
-              </div>
+        <Container maxWidth="xl" sx={{ py: 3 }}>
+          {/* Back Button and Collection Info */}
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 3 }}>
+            <Box>
+              <Button
+                startIcon={<ArrowBack />}
+                onClick={() => navigate('/collections')}
+                sx={{ color: 'primary.main', mb: 2 }}
+              >
+                Back to Collections
+              </Button>
+              <Typography 
+                variant="h4" 
+                sx={{ 
+                  color: 'primary.main',
+                  fontWeight: 800,
+                  mb: 1
+                }}
+              >
+                {collection.name}
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                {collection.description}
+              </Typography>
+            </Box>
+            
+            <Paper sx={{ p: 2, textAlign: 'center', bgcolor: 'rgba(139, 95, 191, 0.1)' }}>
+              <Typography variant="h5" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+                {dolls.length}
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                {dolls.length === 1 ? 'Doll' : 'Dolls'}
+              </Typography>
+            </Paper>
+          </Stack>
 
-              {/* Dolls Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {dolls.map((doll) => (
-                  <DollCard 
-                    key={doll.id} 
-                    doll={doll}
-                    onRemove={handleRemoveDoll}
-                  />
-                ))}
-              </div>
+          <Divider sx={{ mb: 3, borderColor: 'rgba(139, 95, 191, 0.2)' }} />
 
-              {/* Empty State */}
-              {dolls.length === 0 && (
-                <div className="text-center py-16">
-                  <div className="text-6xl mb-4">🧸</div>
-                  <h3 className="text-xl font-semibold text-monstrino-white mb-2">
-                    No Dolls Yet
-                  </h3>
-                  <p className="text-monstrino-white/60 mb-6">
-                    Start adding dolls to your collection!
-                  </p>
-                  <button
-                    onClick={() => setIsAddDollModalOpen(true)}
-                    className="cta-button bg-monstrino-pink hover:bg-monstrino-pink/90 text-monstrino-black px-6 py-3 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300"
-                  >
-                    Add Your First Doll
-                  </button>
-                </div>
-              )}
-            </div>
+          {/* Dolls Grid - Smaller items */}
+          <Grid container spacing={2}>
+            {dolls.map((doll) => (
+              <Grid item xs={6} sm={4} md={3} lg={2} key={doll.id}>
+                <DollCard 
+                  doll={doll}
+                  onRemove={handleRemoveDoll}
+                  size="small"
+                />
+              </Grid>
+            ))}
+          </Grid>
 
-            {/* Right Menu */}
-            <RightMenu onAddDoll={() => setIsAddDollModalOpen(true)} />
-          </div>
-        </div>
-      </div>
+          {/* Empty State */}
+          {dolls.length === 0 && (
+            <Box textAlign="center" sx={{ py: 8 }}>
+              <Typography variant="h2" sx={{ mb: 2 }}>🧸</Typography>
+              <Typography variant="h5" sx={{ color: 'white', mb: 1 }}>
+                No Dolls Yet
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
+                Start adding dolls to your collection!
+              </Typography>
+              <Button
+                variant="contained"
+                startIcon={<Add />}
+                onClick={() => setIsAddDollModalOpen(true)}
+                sx={{ bgcolor: 'primary.main', color: 'black' }}
+              >
+                Add Your First Doll
+              </Button>
+            </Box>
+          )}
+        </Container>
 
-      <AppFooter />
+        <AppFooter />
+      </Box>
+
+      {/* Right Menu */}
+      <RightMenu onAddDoll={() => setIsAddDollModalOpen(true)} />
 
       <AddDollModal
         isOpen={isAddDollModalOpen}
         onClose={() => setIsAddDollModalOpen(false)}
         onSubmit={handleAddDoll}
       />
-    </div>
+    </Box>
   );
 };
 

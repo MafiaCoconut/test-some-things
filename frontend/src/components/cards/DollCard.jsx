@@ -1,69 +1,188 @@
 import React from 'react';
-import { Trash2, Eye, Heart } from 'lucide-react';
+import { 
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Box,
+  IconButton,
+  Chip,
+  Stack
+} from '@mui/material';
+import { Delete, Visibility, Favorite } from '@mui/icons-material';
 
-const DollCard = ({ doll, onRemove }) => {
+const DollCard = ({ doll, onRemove, size = 'medium' }) => {
   const handleRemoveClick = (e) => {
     e.stopPropagation();
     onRemove(doll.id);
   };
 
+  const getCardHeight = () => {
+    switch (size) {
+      case 'small': return 200;
+      case 'medium': return 280;
+      case 'large': return 320;
+      default: return 280;
+    }
+  };
+
+  const getImageHeight = () => {
+    switch (size) {
+      case 'small': return 120;
+      case 'medium': return 180;
+      case 'large': return 220;
+      default: return 180;
+    }
+  };
+
   return (
-    <div className="project-card bg-monstrino-pink/20 hover:bg-monstrino-pink/30 border border-monstrino-pink/30 rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-monstrino-pink/20 group">
-      {/* Doll Image */}
-      <div className="aspect-[3/4] bg-monstrino-black/50 relative overflow-hidden">
-        {doll.image ? (
-          <img 
-            src={doll.image} 
-            alt={doll.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="text-4xl">🧸</div>
-          </div>
-        )}
+    <Card
+      sx={{
+        height: getCardHeight(),
+        bgcolor: 'rgba(255, 105, 180, 0.1)',
+        border: 1,
+        borderColor: 'rgba(255, 105, 180, 0.3)',
+        cursor: 'pointer',
+        transition: 'all 0.3s ease',
+        position: 'relative',
+        '&:hover': {
+          transform: 'scale(1.05)',
+          boxShadow: '0 8px 24px rgba(255, 105, 180, 0.2)',
+          '& .doll-actions': {
+            opacity: 1,
+          },
+          '& .remove-btn': {
+            opacity: 1,
+          },
+        },
+      }}
+    >
+      <Box sx={{ position: 'relative' }}>
+        <CardMedia
+          component="img"
+          height={getImageHeight()}
+          image={doll.image || 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=200&fit=crop'}
+          alt={doll.name}
+          sx={{ 
+            objectFit: 'cover',
+            bgcolor: 'rgba(0, 0, 0, 0.5)'
+          }}
+        />
         
         {/* Remove Button */}
-        <button
+        <IconButton
+          className="remove-btn"
           onClick={handleRemoveClick}
-          className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            bgcolor: 'error.main',
+            color: 'white',
+            opacity: 0,
+            transition: 'opacity 0.3s ease',
+            '&:hover': {
+              bgcolor: 'error.dark',
+            },
+          }}
+          size="small"
         >
-          <Trash2 className="w-3 h-3" />
-        </button>
+          <Delete fontSize="small" />
+        </IconButton>
 
         {/* Overlay Actions */}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-2">
-          <button className="bg-monstrino-white/20 p-2 rounded-full hover:bg-monstrino-white/30 transition-colors duration-150">
-            <Eye className="w-4 h-4 text-white" />
-          </button>
-          <button className="bg-monstrino-white/20 p-2 rounded-full hover:bg-monstrino-white/30 transition-colors duration-150">
-            <Heart className="w-4 h-4 text-white" />
-          </button>
-        </div>
-      </div>
+        <Box
+          className="doll-actions"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            bgcolor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: 0,
+            transition: 'opacity 0.3s ease',
+            gap: 1,
+          }}
+        >
+          <IconButton
+            sx={{
+              bgcolor: 'rgba(255, 255, 255, 0.2)',
+              color: 'white',
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.3)',
+              },
+            }}
+            size="small"
+          >
+            <Visibility />
+          </IconButton>
+          <IconButton
+            sx={{
+              bgcolor: 'rgba(255, 255, 255, 0.2)',
+              color: 'white',
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.3)',
+              },
+            }}
+            size="small"
+          >
+            <Favorite />
+          </IconButton>
+        </Box>
+      </Box>
 
-      {/* Doll Info */}
-      <div className="p-3 space-y-2">
-        <h3 className="font-semibold text-monstrino-white text-sm leading-tight">
+      <CardContent sx={{ p: 1.5, '&:last-child': { pb: 1.5 } }}>
+        <Typography 
+          variant={size === 'small' ? 'caption' : 'subtitle2'}
+          sx={{ 
+            color: 'white',
+            fontWeight: 600,
+            mb: 0.5,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+        >
           {doll.name}
-        </h3>
+        </Typography>
         
-        <div className="flex items-center justify-between text-xs">
-          <span className="text-monstrino-pink font-mono uppercase tracking-wide">
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+          <Typography 
+            variant="caption" 
+            sx={{ 
+              color: 'primary.main',
+              fontFamily: '"Fira Code", monospace',
+              textTransform: 'uppercase',
+              fontSize: size === 'small' ? '0.6rem' : '0.75rem'
+            }}
+          >
             {doll.character}
-          </span>
-          <span className="text-monstrino-white/60 font-mono">
+          </Typography>
+          <Typography 
+            variant="caption" 
+            sx={{ 
+              color: 'text.secondary',
+              fontFamily: '"Fira Code", monospace',
+              fontSize: size === 'small' ? '0.6rem' : '0.75rem'
+            }}
+          >
             {doll.year}
-          </span>
-        </div>
+          </Typography>
+        </Stack>
 
-        <div className="flex flex-wrap gap-1">
-          <span className="service-button bg-monstrino-purple/50 text-monstrino-white px-2 py-1 rounded-full font-mono text-xs uppercase tracking-wide">
-            {doll.series}
-          </span>
-        </div>
-      </div>
-    </div>
+        <Chip
+          label={doll.series}
+          size="small"
+          sx={{
+            bgcolor: 'rgba(139, 95, 191, 0.5)',
+            color: 'white',
+            fontSize: size === 'small' ? '0.6rem' : '0.65rem',
+            height: size === 'small' ? 18 : 20,
+          }}
+        />
+      </CardContent>
+    </Card>
   );
 };
 

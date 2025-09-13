@@ -37,6 +37,8 @@ function App() {
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/help" element={<HelpPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/posts" element={<PostsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </BrowserRouter>
       </div>

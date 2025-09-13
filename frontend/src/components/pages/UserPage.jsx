@@ -320,49 +320,92 @@ const UserPage = () => {
               <Typography variant="h6" sx={{ color: 'primary.main', mb: 2, fontSize: { xs: '1rem', md: '1.25rem' } }}>
                 My Collections
               </Typography>
-              <Stack spacing={2} sx={{ maxHeight: { lg: '600px' }, overflowY: 'auto' }}>
+              <Stack spacing={1} sx={{ maxHeight: { lg: '600px' }, overflowY: 'auto' }}>
                 {collections.slice(0, 4).map((collection) => (
-                  <Card 
+                  <Paper 
                     key={collection.id}
                     sx={{ 
                       bgcolor: 'rgba(139, 95, 191, 0.1)',
                       cursor: 'pointer',
                       transition: 'all 0.2s',
+                      p: 1,
                       '&:hover': { 
                         bgcolor: 'rgba(139, 95, 191, 0.2)',
-                        transform: 'translateY(-2px)'
+                        transform: 'translateY(-1px)'
                       }
                     }}
                     onClick={() => navigate(`/collection/${collection.id}`)}
                   >
-                    <CardMedia
-                      component="img"
-                      height={isMobile ? 60 : 80}
-                      image={collection.coverImage}
-                      alt={collection.name}
-                    />
-                    <CardContent sx={{ p: { xs: 1, md: 1.5 }, '&:last-child': { pb: { xs: 1, md: 1.5 } } }}>
-                      <Typography 
-                        variant="subtitle2" 
-                        sx={{ 
-                          color: 'white', 
-                          mb: 0.5,
-                          fontSize: { xs: '0.8rem', md: '0.875rem' }
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      {/* Image on the left */}
+                      <Box
+                        component="img"
+                        src={collection.coverImage}
+                        alt={collection.name}
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 1,
+                          objectFit: 'cover',
+                          flexShrink: 0
                         }}
-                      >
-                        {collection.name}
-                      </Typography>
-                      <Typography 
-                        variant="caption" 
-                        sx={{ 
-                          color: 'primary.main',
-                          fontSize: { xs: '0.65rem', md: '0.75rem' }
-                        }}
-                      >
-                        {collection.dollsCount} dolls
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                      />
+                      
+                      {/* Title and description in the center */}
+                      <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                        <Typography 
+                          variant="subtitle2" 
+                          sx={{ 
+                            color: 'white', 
+                            fontSize: { xs: '0.8rem', md: '0.875rem' },
+                            fontWeight: 600,
+                            mb: 0.25,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
+                          {collection.name}
+                        </Typography>
+                        <Typography 
+                          variant="caption" 
+                          sx={{ 
+                            color: 'text.secondary',
+                            fontSize: { xs: '0.65rem', md: '0.7rem' },
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            display: 'block'
+                          }}
+                        >
+                          {collection.description || 'No description available'}
+                        </Typography>
+                      </Box>
+                      
+                      {/* Doll count on the right */}
+                      <Box sx={{ textAlign: 'right', flexShrink: 0 }}>
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: 'primary.main',
+                            fontSize: { xs: '0.75rem', md: '0.875rem' },
+                            fontWeight: 600
+                          }}
+                        >
+                          {collection.dollsCount}
+                        </Typography>
+                        <Typography 
+                          variant="caption" 
+                          sx={{ 
+                            color: 'text.secondary',
+                            fontSize: { xs: '0.6rem', md: '0.65rem' }
+                          }}
+                        >
+                          dolls
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Paper>
                 ))}
               </Stack>
             </Grid>

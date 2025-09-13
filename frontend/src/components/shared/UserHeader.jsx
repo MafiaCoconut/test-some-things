@@ -5,12 +5,12 @@ import {
   Typography, 
   Paper,
   Grid,
-  Stack
+  Stack,
+  IconButton
 } from '@mui/material';
-import { mockUserData } from '../../data/mockAppData';
+import { Edit } from '@mui/icons-material';
 
-const UserHeader = () => {
-  const user = mockUserData.currentUser;
+const UserHeader = ({ userData, onEditProfile }) => {
 
   return (
     <Paper 

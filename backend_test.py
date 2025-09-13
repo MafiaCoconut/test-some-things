@@ -8,6 +8,7 @@ import requests
 import json
 import sys
 import os
+import uuid
 from datetime import datetime
 
 # Get backend URL from environment
@@ -18,6 +19,11 @@ class EmailBackendTester:
         self.base_url = BACKEND_URL
         self.test_results = []
         self.failed_tests = []
+        self.test_id = str(uuid.uuid4())[:8]  # Unique test run ID
+        
+    def get_unique_email(self, base_name):
+        """Generate unique email for testing"""
+        return f"{base_name}+{self.test_id}@monsterhigh.com"
         
     def log_test(self, test_name, success, details="", response_data=None):
         """Log test results"""

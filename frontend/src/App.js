@@ -42,6 +42,7 @@ function App() {
             <Route path="/posts" element={<PostsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
           </Routes>
         </BrowserRouter>
       </div>

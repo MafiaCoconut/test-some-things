@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Zap, Users, Heart, ArrowRight } from 'lucide-react';
 
 const HeroSection = ({ onOpenAuth, onSubscribe, isSubscribed }) => {

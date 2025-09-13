@@ -42,6 +42,40 @@ const LeftMenu = ({ mobileOpen, onMobileClose }) => {
 
   const drawerContent = (
     <Box sx={{ p: { xs: 1, md: 2 } }}>
+      {isMobile && (
+        <Box sx={{ 
+          textAlign: 'center', 
+          mb: 2, 
+          pb: 2, 
+          borderBottom: 1, 
+          borderColor: 'rgba(139, 95, 191, 0.2)' 
+        }}>
+          <Typography 
+            variant="h5"
+            sx={{ 
+              color: 'primary.main',
+              fontWeight: 800,
+              fontFamily: '"Creepster", "Griffy", cursive',
+              fontSize: '1.5rem',
+              textShadow: '2px 2px 4px rgba(255, 105, 180, 0.3)',
+            }}
+          >
+            MONSTRINO
+          </Typography>
+          <Typography 
+            variant="caption" 
+            sx={{ 
+              color: 'secondary.main',
+              fontFamily: '"Fira Code", monospace',
+              fontSize: '0.65rem',
+              display: 'block',
+              mt: 0.5
+            }}
+          >
+            MONSTER HIGH SOCIAL
+          </Typography>
+        </Box>
+      )}
       <List>
         {menuItems.map((item) => {
           const Icon = item.icon;

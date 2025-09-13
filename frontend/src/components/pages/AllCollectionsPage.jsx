@@ -20,8 +20,12 @@ import CreateCollectionModal from '../modals/CreateCollectionModal';
 import { mockUserData } from '../../data/mockAppData';
 
 const AllCollectionsPage = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  
   const [collections, setCollections] = useState(mockUserData.collections);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleCreateCollection = (newCollection) => {
     const collection = {

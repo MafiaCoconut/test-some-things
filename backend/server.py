@@ -81,6 +81,111 @@ async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
 
+# Email Subscription Endpoints
+@api_router.post("/email/subscribe", response_model=EmailSubscription)
+async def subscribe_to_newsletter(subscription: EmailSubscriptionCreate):
+    """
+    Subscribe user to newsletter and store subscription in database
+    """
+    try:
+        # Check if email already exists
+        existing_subscription = await db.email_subscriptions.find_one({"email": subscription.email})
+        
+        if existing_subscription:
+            # Reactivate if inactive
+            if not existing_subscription.get("is_active", True):
+                await db.email_subscriptions.update_one(
+                    {"email": subscription.email},
+                    {"$set": {"is_active": True, "subscribed_at": datetime.utcnow()}}
+                )
+                existing_subscription["is_active"] = True
+                existing_subscription["subscribed_at"] = datetime.utcnow()
+                return EmailSubscription(**existing_subscription)
+            else:
+                raise HTTPException(status_code=400, detail="Email already subscribed")
+        
+        # Create new subscription
+        subscription_dict = subscription.dict()
+        subscription_obj = EmailSubscription(**subscription_dict)
+        
+        # Store in database
+        await db.email_subscriptions.insert_one(subscription_obj.dict())
+        
+        logger.info(f"New email subscription: {subscription.email}")
+        return subscription_obj
+        
+    except Exception as e:
+        logger.error(f"Error creating email subscription: {e}")
+        raise HTTPException(status_code=500, detail="Failed to subscribe to newsletter")
+
+@api_router.post("/email/template", response_model=EmailTemplate)
+async def get_email_template(request: EmailSendRequest):
+    """
+    Generate email template for given parameters
+    This endpoint returns the template content but doesn't send the email
+    Use this to preview templates or integrate with your email service
+    """
+    try:
+        # Get template based on variant and type
+        template_data = get_template_by_variant(
+            variant=request.template_variant,
+            username=request.username,
+            template_type=request.template_type
+        )
+        
+        # Create template response
+        email_template = EmailTemplate(
+            subject=template_data["subject"],
+            html_body=template_data["html_body"],
+            text_body=template_data["text_body"],
+            recipient_email=request.email,
+            recipient_username=request.username,
+            template_variant=request.template_variant,
+            template_type=request.template_type
+        )
+        
+        logger.info(f"Generated email template variant {request.template_variant} for {request.email}")
+        return email_template
+        
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error generating email template: {e}")
+        raise HTTPException(status_code=500, detail="Failed to generate email template")
+
+@api_router.get("/email/subscriptions", response_model=List[EmailSubscription])
+async def get_email_subscriptions():
+    """
+    Get all active email subscriptions (admin endpoint)
+    """
+    try:
+        subscriptions = await db.email_subscriptions.find({"is_active": True}).to_list(1000)
+        return [EmailSubscription(**sub) for sub in subscriptions]
+    except Exception as e:
+        logger.error(f"Error fetching email subscriptions: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch subscriptions")
+
+@api_router.post("/email/unsubscribe")
+async def unsubscribe_from_newsletter(email: EmailStr):
+    """
+    Unsubscribe user from newsletter
+    """
+    try:
+        result = await db.email_subscriptions.update_one(
+            {"email": email},
+            {"$set": {"is_active": False}}
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Email subscription not found")
+        
+        logger.info(f"Email unsubscribed: {email}")
+        return {"message": "Successfully unsubscribed from newsletter"}
+        
+    except Exception as e:
+        logger.error(f"Error unsubscribing email: {e}")
+        raise HTTPException(status_code=500, detail="Failed to unsubscribe from newsletter")
+
 # Include the router in the main app
 app.include_router(api_router)
 

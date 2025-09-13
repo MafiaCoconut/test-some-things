@@ -27,7 +27,7 @@ const DollViewPage = () => {
       <LeftMenu />
       
       <Box component="main" sx={{ flexGrow: 1, ml: '200px', mt: 8 }}>
-        <UserHeader />
+        <UserHeader userData={mockUserData.currentUser} />
         
         <Box sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
           <Button startIcon={<ArrowBack />} onClick={() => navigate(-1)} sx={{ mb: 3 }}>Back</Button>

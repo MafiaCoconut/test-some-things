@@ -140,7 +140,8 @@ export const mockUserData = {
       text: "Just added my Holiday Specials collection! So excited to share these festive ghouls with everyone. The winter wonderland Draculaura is absolutely divine! ❄️💖",
       date: "2024-04-01T10:30:00Z",
       likes: 23,
-      comments: 5
+      comments: 5,
+      tags: ['collection', 'vampire', 'holiday']
     },
     {
       id: 2,
@@ -148,7 +149,8 @@ export const mockUserData = {
       text: "Can we talk about how gorgeous the new vampire collection pieces are? The detail work on their outfits is incredible! Monster High really outdid themselves this time. 🧛‍♀️✨",
       date: "2024-03-28T14:15:00Z",
       likes: 31,
-      comments: 8
+      comments: 8,
+      tags: ['vampire', 'fashion', 'collection']
     },
     {
       id: 3,
@@ -156,7 +158,8 @@ export const mockUserData = {
       text: "Been experimenting with lighting for my doll photos. Natural window light + a white poster board reflector = *chef's kiss* Perfect shots every time! What's your go-to setup? 📸",
       date: "2024-03-25T09:45:00Z",
       likes: 18,
-      comments: 12
+      comments: 12,
+      tags: ['photography', 'tips', 'dolls']
     },
     {
       id: 4,
@@ -164,7 +167,8 @@ export const mockUserData = {
       text: "Movie night with the ghouls! Rewatching all the Monster High movies while organizing my collection. Nothing beats a cozy night in with your favorite monsters! 🍿👻",
       date: "2024-03-22T20:00:00Z",
       likes: 27,
-      comments: 6
+      comments: 6,
+      tags: ['movie', 'collection', 'gothic']
     }
   ],
 

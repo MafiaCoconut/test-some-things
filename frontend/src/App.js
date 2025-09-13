@@ -40,6 +40,7 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/posts" element={<PostsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
           </Routes>
         </BrowserRouter>
       </div>

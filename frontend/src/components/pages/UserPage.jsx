@@ -161,7 +161,7 @@ const UserPage = () => {
           </Grid>
         </Paper>
         
-        <Container maxWidth="xl" sx={{ py: { xs: 1, md: 2 }, px: { xs: 1, md: 2 } }}>
+        <Container maxWidth={false} sx={{ py: { xs: 1, md: 2 }, px: { xs: 1, md: 3 }, maxWidth: 'none', width: '100%' }}>
           {/* Action Buttons */}
           <Stack 
             direction="row" 

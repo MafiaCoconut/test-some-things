@@ -289,7 +289,8 @@ class EmailBackendTester:
             
             if subscribe_response.status_code == 200:
                 # Now test unsubscribe
-                response = requests.post(f"{self.base_url}/email/unsubscribe", json="ghoulia@monsterhigh.com")
+                unsubscribe_payload = {"email": "ghoulia@monsterhigh.com"}
+                response = requests.post(f"{self.base_url}/email/unsubscribe", json=unsubscribe_payload)
                 
                 if response.status_code == 200:
                     data = response.json()
@@ -310,7 +311,8 @@ class EmailBackendTester:
         test_name = "Unsubscribe - Non-existent Email"
         
         try:
-            response = requests.post(f"{self.base_url}/email/unsubscribe", json="nonexistent@monsterhigh.com")
+            unsubscribe_payload = {"email": "nonexistent@monsterhigh.com"}
+            response = requests.post(f"{self.base_url}/email/unsubscribe", json=unsubscribe_payload)
             
             if response.status_code == 404:
                 data = response.json()

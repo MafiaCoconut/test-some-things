@@ -126,7 +126,7 @@ const WishlistPage = () => {
           width: 'auto'
         }}
       >
-        <Container maxWidth="xl" sx={{ py: { xs: 2, md: 3 }, px: { xs: 1, md: 2 } }}>
+        <Container maxWidth={false} sx={{ py: { xs: 2, md: 3 }, px: { xs: 1, md: 3 }, maxWidth: 'none', width: '100%' }}>
           {/* Header Section */}
           <Box sx={{ mb: 4 }}>
             <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>

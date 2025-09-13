@@ -10,6 +10,11 @@ import UserPage from "./components/pages/UserPage";
 import FriendsPage from "./components/pages/FriendsPage";
 import GroupsPage from "./components/pages/GroupsPage";
 import DollViewPage from "./components/pages/DollViewPage";
+import AboutPage from "./components/pages/AboutPage";
+import PrivacyPage from "./components/pages/PrivacyPage";
+import TermsPage from "./components/pages/TermsPage";
+import HelpPage from "./components/pages/HelpPage";
+import ContactPage from "./components/pages/ContactPage";
 
 function App() {
   return (

@@ -78,14 +78,15 @@ const UserPage = () => {
           sx={{
             position: 'fixed',
             top: 70,
-            left: 10,
+            left: mobileMenuOpen ? 250 : 10, // Move button right when menu is open
             zIndex: 1300,
             bgcolor: 'background.paper',
             color: 'primary.main',
+            transition: 'left 0.3s ease',
             '&:hover': { bgcolor: 'rgba(255, 105, 180, 0.1)' }
           }}
         >
-          <MenuOpen />
+          <MenuOpen sx={{ transform: mobileMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }} />
         </IconButton>
       )}
 

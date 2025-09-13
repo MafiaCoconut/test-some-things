@@ -159,12 +159,12 @@ const FriendsPostsPage = () => {
         }}
       >
         <Container 
-          maxWidth="md" 
+          maxWidth={false}
           sx={{ 
             py: { xs: 2, md: 3 }, 
-            px: { xs: 1, md: 2 },
-            width: '100%',
-            maxWidth: { xs: '100%', sm: '100%', md: '800px', lg: '900px' }
+            px: { xs: 1, md: 3 },
+            maxWidth: 'none',
+            width: '100%'
           }}
         >
           {/* Header Section */}

@@ -293,8 +293,9 @@ class EmailBackendTester:
         
         try:
             # First subscribe a new email for testing unsubscribe
+            unique_email = self.get_unique_email("ghoulia")
             subscribe_payload = {
-                "email": "ghoulia@monsterhigh.com",
+                "email": unique_email,
                 "username": "Ghoulia",
                 "template_variant": "1"
             }
@@ -303,7 +304,7 @@ class EmailBackendTester:
             
             if subscribe_response.status_code == 200:
                 # Now test unsubscribe
-                unsubscribe_payload = {"email": "ghoulia@monsterhigh.com"}
+                unsubscribe_payload = {"email": unique_email}
                 response = requests.post(f"{self.base_url}/email/unsubscribe", json=unsubscribe_payload)
                 
                 if response.status_code == 200:

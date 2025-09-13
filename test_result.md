@@ -106,8 +106,8 @@ user_problem_statement: "Fix script error and implement mobile menu improvements
 
 backend:
   - task: "Email endpoint for newsletter subscription"
-    implemented: false
-    working: "NA"
+    implemented: true
+    working: true
     file: "server.py"
     stuck_count: 0
     priority: "high"
@@ -116,10 +116,13 @@ backend:
       - working: "NA"
         agent: "main"
         comment: "To be implemented - create flexible email endpoint with templates"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: POST /api/email/subscribe endpoint working perfectly. Handles valid emails, duplicate subscriptions (400 error), invalid email formats (422 error), and missing fields (422 error). All validation working correctly."
 
   - task: "Email template variants creation"
-    implemented: false
-    working: "NA" 
+    implemented: true
+    working: true
     file: "email_templates.py"
     stuck_count: 0
     priority: "high"
@@ -128,6 +131,21 @@ backend:
       - working: "NA"
         agent: "main"
         comment: "Create 2-3 Monster High themed email template variants"
+      - working: true
+        agent: "testing"
+        comment: "TESTED: POST /api/email/template endpoint working perfectly. All 3 template variants (1,2,3) generate correctly for both 'newsletter' and 'release' types. Templates contain proper Monster High branding, Mattel disclaimers, username personalization, and both HTML/text versions. Invalid variants properly rejected with 400 error."
+
+  - task: "Email subscription management endpoints"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "TESTED: GET /api/email/subscriptions and POST /api/email/unsubscribe endpoints working perfectly. Can retrieve all active subscriptions and unsubscribe users correctly. Non-existent email unsubscribe properly returns 404 error. All data validation working."
 
 frontend:
   - task: "Script error fix"

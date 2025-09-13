@@ -13,6 +13,39 @@ export const mockUserData = {
     joinedAt: "2024-01-15"
   },
 
+  wishlist: [
+    {
+      id: 1,
+      dollId: 7,
+      dollName: "Abbey Bominable",
+      dollImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=160&h=120&fit=crop",
+      character: "Yeti",
+      addedAt: "2024-03-15",
+      priority: "high",
+      notes: "Looking for the 13 Wishes version!"
+    },
+    {
+      id: 2,
+      dollId: 8,
+      dollName: "Operetta",
+      dollImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=160&h=120&fit=crop",
+      character: "Phantom of the Opera Daughter",
+      addedAt: "2024-03-10",
+      priority: "medium",
+      notes: "Music room themed doll"
+    },
+    {
+      id: 3,
+      dollId: 9,
+      dollName: "Spectra Vondergeist",
+      dollImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=160&h=120&fit=crop",
+      character: "Ghost",
+      addedAt: "2024-03-05",
+      priority: "low",
+      notes: "For the ghost collection"
+    }
+  ],
+
   collections: [
     {
       id: 1,

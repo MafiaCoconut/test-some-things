@@ -63,7 +63,7 @@ const AppHeader = () => {
             </Typography>
           </Button>
           <Button
-            startIcon={<LogOut />}
+            startIcon={<Logout />}
             onClick={handleLogout}
             sx={{ color: 'primary.main' }}
           >

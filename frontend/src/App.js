@@ -19,6 +19,7 @@ import PostsPage from "./components/pages/PostsPage";
 import SettingsPage from "./components/pages/SettingsPage";
 import AchievementsPage from "./components/pages/AchievementsPage";
 import WishlistPage from "./components/pages/WishlistPage";
+import FriendsPostsPage from "./components/pages/FriendsPostsPage";
 
 function App() {
   return (

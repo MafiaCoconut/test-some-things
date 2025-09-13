@@ -17,7 +17,9 @@ import {
   ListItem,
   ListItemText,
   ListItemSecondaryAction,
-  IconButton
+  IconButton,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { 
   Security, 
@@ -27,7 +29,8 @@ import {
   Shield,
   Delete,
   Visibility,
-  VisibilityOff
+  VisibilityOff,
+  MenuOpen
 } from '@mui/icons-material';
 import AppHeader from '../shared/AppHeader';
 import LeftMenu from '../shared/LeftMenu';
@@ -36,7 +39,11 @@ import AppFooter from '../shared/AppFooter';
 import { mockUserData } from '../../data/mockAppData';
 
 const SettingsPage = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  
   const [tabValue, setTabValue] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [settings, setSettings] = useState({
     notifications: true,
     privacy: false,
@@ -55,7 +62,7 @@ const SettingsPage = () => {
   });
   const [saveAlert, setSaveAlert] = useState(false);
 
-  const handleSettingChange = (setting) => {
+  const handleToggleSetting = (setting) => {
     setSettings(prev => ({
       ...prev,
       [setting]: !prev[setting]
@@ -87,31 +94,91 @@ const SettingsPage = () => {
   return (
     <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '100vh' }}>
       <AppHeader />
-      <LeftMenu />
       
-      <Box component="main" sx={{ flexGrow: 1, ml: '200px', mt: 8 }}>
+      {/* Mobile Menu Toggle */}
+      {isMobile && (
+        <IconButton
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          sx={{
+            position: 'fixed',
+            top: 70,
+            left: mobileMenuOpen ? 250 : 10,
+            zIndex: 1300,
+            bgcolor: 'background.paper',
+            color: 'primary.main',
+            transition: 'left 0.3s ease',
+            '&:hover': { bgcolor: 'rgba(255, 105, 180, 0.1)' }
+          }}
+        >
+          <MenuOpen sx={{ transform: mobileMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s ease' }} />
+        </IconButton>
+      )}
+      
+      <LeftMenu mobileOpen={mobileMenuOpen} onMobileClose={() => setMobileMenuOpen(false)} />
+      
+      <Box 
+        component="main" 
+        sx={{ 
+          flexGrow: 1, 
+          ml: { xs: 0, md: '200px', lg: '220px' },
+          mt: 8,
+          width: { xs: '100%', md: 'calc(100% - 200px)', lg: 'calc(100% - 220px)' },
+          overflowX: 'hidden'
+        }}
+      >
         <UserHeader userData={mockUserData.currentUser} />
         
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Typography variant="h4" sx={{ color: 'primary.main', mb: 4 }}>
+        <Container 
+          maxWidth="md" 
+          sx={{ 
+            py: { xs: 2, md: 4 },
+            px: { xs: 1, md: 2 },
+            width: '100%'
+          }}
+        >
+          <Typography 
+            variant="h4" 
+            sx={{ 
+              color: 'primary.main', 
+              mb: { xs: 2, md: 4 },
+              fontSize: { xs: '1.8rem', md: '2.125rem' },
+              textAlign: { xs: 'center', md: 'left' }
+            }}
+          >
             Settings
           </Typography>
 
           {saveAlert && (
-            <Alert severity="success" sx={{ mb: 3 }}>
+            <Alert 
+              severity="success" 
+              sx={{ 
+                mb: 3,
+                mx: { xs: 0, md: 0 }
+              }}
+            >
               Settings saved successfully!
             </Alert>
           )}
 
-          <Paper sx={{ bgcolor: 'rgba(255, 255, 255, 0.05)' }}>
+          <Paper 
+            sx={{ 
+              bgcolor: 'rgba(255, 255, 255, 0.05)',
+              width: '100%',
+              overflowX: 'hidden'
+            }}
+          >
             <Tabs 
               value={tabValue} 
               onChange={handleTabChange}
+              variant={isMobile ? "scrollable" : "fullWidth"}
+              scrollButtons={isMobile ? "auto" : false}
               sx={{
                 borderBottom: 1,
                 borderColor: 'rgba(139, 95, 191, 0.2)',
                 '& .MuiTab-root': {
                   color: 'text.secondary',
+                  fontSize: { xs: '0.8rem', md: '0.875rem' },
+                  minWidth: { xs: 'auto', md: 120 },
                   '&.Mui-selected': { color: 'primary.main' }
                 },
                 '& .MuiTabs-indicator': { bgcolor: 'primary.main' }
@@ -120,15 +187,15 @@ const SettingsPage = () => {
               <Tab icon={<Person />} label="Profile" />
               <Tab icon={<Security />} label="Security" />
               <Tab icon={<Notifications />} label="Notifications" />
-              <Tab icon={<Shield />} label="Privacy" />
               <Tab icon={<Palette />} label="Appearance" />
+              <Tab icon={<Shield />} label="Privacy" />
             </Tabs>
 
-            {/* Profile Tab */}
+            {/* Profile Settings */}
             <TabPanel value={tabValue} index={0}>
-              <Box sx={{ p: 3 }}>
+              <Box sx={{ p: { xs: 2, md: 3 } }}>
                 <Typography variant="h6" sx={{ color: 'primary.main', mb: 3 }}>
-                  Profile Settings
+                  Profile Information
                 </Typography>
                 
                 <Stack spacing={3}>
@@ -136,47 +203,60 @@ const SettingsPage = () => {
                     label="Display Name"
                     defaultValue={mockUserData.currentUser.username}
                     fullWidth
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(139, 95, 191, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'primary.main' },
+                        '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                      },
+                      '& .MuiInputLabel-root': { color: 'text.secondary' }
+                    }}
                   />
+                  
                   <TextField
                     label="Email"
                     defaultValue={mockUserData.currentUser.email}
                     fullWidth
-                    type="email"
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(139, 95, 191, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'primary.main' },
+                        '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                      },
+                      '& .MuiInputLabel-root': { color: 'text.secondary' }
+                    }}
                   />
+                  
                   <TextField
                     label="Bio"
                     defaultValue={mockUserData.currentUser.bio}
                     fullWidth
                     multiline
-                    rows={4}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Switch 
-                        checked={settings.showEmail}
-                        onChange={() => handleSettingChange('showEmail')}
-                      />
-                    }
-                    label="Show email on profile"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Switch 
-                        checked={settings.showStats}
-                        onChange={() => handleSettingChange('showStats')}
-                      />
-                    }
-                    label="Show collection stats"
+                    rows={3}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(139, 95, 191, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'primary.main' },
+                        '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                      },
+                      '& .MuiInputLabel-root': { color: 'text.secondary' }
+                    }}
                   />
                 </Stack>
               </Box>
             </TabPanel>
 
-            {/* Security Tab */}
+            {/* Security Settings */}
             <TabPanel value={tabValue} index={1}>
-              <Box sx={{ p: 3 }}>
+              <Box sx={{ p: { xs: 2, md: 3 } }}>
                 <Typography variant="h6" sx={{ color: 'primary.main', mb: 3 }}>
-                  Security Settings
+                  Change Password
                 </Typography>
                 
                 <Stack spacing={3}>
@@ -188,142 +268,243 @@ const SettingsPage = () => {
                     fullWidth
                     InputProps={{
                       endAdornment: (
-                        <IconButton onClick={() => setShowPassword(!showPassword)}>
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          sx={{ color: 'text.secondary' }}
+                        >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       )
                     }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(139, 95, 191, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'primary.main' },
+                        '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                      },
+                      '& .MuiInputLabel-root': { color: 'text.secondary' }
+                    }}
                   />
+                  
                   <TextField
                     label="New Password"
                     type={showPassword ? 'text' : 'password'}
                     value={passwords.new}
                     onChange={(e) => handlePasswordChange('new', e.target.value)}
                     fullWidth
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(139, 95, 191, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'primary.main' },
+                        '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                      },
+                      '& .MuiInputLabel-root': { color: 'text.secondary' }
+                    }}
                   />
+                  
                   <TextField
                     label="Confirm New Password"
-                    type={showPassword ? 'text' : 'password'}  
+                    type={showPassword ? 'text' : 'password'}
                     value={passwords.confirm}
                     onChange={(e) => handlePasswordChange('confirm', e.target.value)}
                     fullWidth
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        color: 'white',
+                        '& fieldset': { borderColor: 'rgba(139, 95, 191, 0.3)' },
+                        '&:hover fieldset': { borderColor: 'primary.main' },
+                        '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                      },
+                      '& .MuiInputLabel-root': { color: 'text.secondary' }
+                    }}
                   />
-                  
-                  <Divider />
-                  
-                  <Typography variant="subtitle1" sx={{ color: 'warning.main' }}>
-                    Active Sessions
-                  </Typography>
-                  <List>
-                    <ListItem>
-                      <ListItemText 
-                        primary="Current Device"
-                        secondary="Chrome on Windows - Active now"
-                      />
-                      <ListItemSecondaryAction>
-                        <Button color="error" size="small">Revoke</Button>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  </List>
                 </Stack>
               </Box>
             </TabPanel>
 
-            {/* Notifications Tab */}
+            {/* Notification Settings */}
             <TabPanel value={tabValue} index={2}>
-              <Box sx={{ p: 3 }}>
+              <Box sx={{ p: { xs: 2, md: 3 } }}>
                 <Typography variant="h6" sx={{ color: 'primary.main', mb: 3 }}>
                   Notification Preferences
                 </Typography>
                 
-                <Stack spacing={2}>
-                  <FormControlLabel
-                    control={
-                      <Switch 
-                        checked={settings.notifications}
-                        onChange={() => handleSettingChange('notifications')}
-                      />
-                    }
-                    label="Push Notifications"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Switch 
+                <List sx={{ width: '100%' }}>
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemText 
+                      primary="Email Notifications" 
+                      secondary="Receive updates via email"
+                      primaryTypographyProps={{ color: 'white' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
                         checked={settings.emailUpdates}
-                        onChange={() => handleSettingChange('emailUpdates')}
+                        onChange={() => handleToggleSetting('emailUpdates')}
+                        color="primary"
                       />
-                    }
-                    label="Email Updates"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Switch 
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  
+                  <Divider sx={{ borderColor: 'rgba(139, 95, 191, 0.2)' }} />
+                  
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemText 
+                      primary="Friend Requests" 
+                      secondary="Get notified of new friend requests"
+                      primaryTypographyProps={{ color: 'white' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
                         checked={settings.friendRequests}
-                        onChange={() => handleSettingChange('friendRequests')}
+                        onChange={() => handleToggleSetting('friendRequests')}
+                        color="primary"
                       />
-                    }
-                    label="Friend Request Notifications"
-                  />
-                </Stack>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  
+                  <Divider sx={{ borderColor: 'rgba(139, 95, 191, 0.2)' }} />
+                  
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemText 
+                      primary="Push Notifications" 
+                      secondary="Browser notifications for activity"
+                      primaryTypographyProps={{ color: 'white' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        checked={settings.notifications}
+                        onChange={() => handleToggleSetting('notifications')}
+                        color="primary"
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </List>
               </Box>
             </TabPanel>
 
-            {/* Privacy Tab */}
+            {/* Appearance Settings */}
             <TabPanel value={tabValue} index={3}>
-              <Box sx={{ p: 3 }}>
+              <Box sx={{ p: { xs: 2, md: 3 } }}>
                 <Typography variant="h6" sx={{ color: 'primary.main', mb: 3 }}>
-                  Privacy Settings
+                  Appearance & Theme
                 </Typography>
                 
-                <Stack spacing={2}>
-                  <FormControlLabel
-                    control={
-                      <Switch 
-                        checked={settings.privacy}
-                        onChange={() => handleSettingChange('privacy')}
-                      />
-                    }
-                    label="Private Profile"
-                  />
-                  <Typography variant="body2" sx={{ color: 'text.secondary', ml: 4 }}>
-                    Only friends can see your posts and collections
-                  </Typography>
-                </Stack>
-              </Box>
-            </TabPanel>
-
-            {/* Appearance Tab */}
-            <TabPanel value={tabValue} index={4}>
-              <Box sx={{ p: 3 }}>
-                <Typography variant="h6" sx={{ color: 'primary.main', mb: 3 }}>
-                  Appearance Settings
-                </Typography>
-                
-                <Stack spacing={2}>
-                  <FormControlLabel
-                    control={
-                      <Switch 
+                <List sx={{ width: '100%' }}>
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemText 
+                      primary="Dark Mode" 
+                      secondary="Use dark theme (Monster High style)"
+                      primaryTypographyProps={{ color: 'white' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
                         checked={settings.darkMode}
-                        onChange={() => handleSettingChange('darkMode')}
+                        onChange={() => handleToggleSetting('darkMode')}
+                        color="primary"
                       />
-                    }
-                    label="Dark Mode"
-                  />
-                </Stack>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </List>
               </Box>
             </TabPanel>
 
+            {/* Privacy Settings */}
+            <TabPanel value={tabValue} index={4}>
+              <Box sx={{ p: { xs: 2, md: 3 } }}>
+                <Typography variant="h6" sx={{ color: 'primary.main', mb: 3 }}>
+                  Privacy & Security
+                </Typography>
+                
+                <List sx={{ width: '100%' }}>
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemText 
+                      primary="Profile Visibility" 
+                      secondary="Who can see your profile"
+                      primaryTypographyProps={{ color: 'white' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        checked={settings.privacy}
+                        onChange={() => handleToggleSetting('privacy')}
+                        color="primary"
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  
+                  <Divider sx={{ borderColor: 'rgba(139, 95, 191, 0.2)' }} />
+                  
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemText 
+                      primary="Show Email" 
+                      secondary="Display email on profile"
+                      primaryTypographyProps={{ color: 'white' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        checked={settings.showEmail}
+                        onChange={() => handleToggleSetting('showEmail')}
+                        color="primary"
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  
+                  <Divider sx={{ borderColor: 'rgba(139, 95, 191, 0.2)' }} />
+                  
+                  <ListItem sx={{ px: 0 }}>
+                    <ListItemText 
+                      primary="Show Stats" 
+                      secondary="Display collection stats publicly"
+                      primaryTypographyProps={{ color: 'white' }}
+                      secondaryTypographyProps={{ color: 'text.secondary' }}
+                    />
+                    <ListItemSecondaryAction>
+                      <Switch
+                        checked={settings.showStats}
+                        onChange={() => handleToggleSetting('showStats')}
+                        color="primary"
+                      />
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </List>
+              </Box>
+            </TabPanel>
+
+            {/* Save Button */}
             <Box sx={{ p: 3, borderTop: 1, borderColor: 'rgba(139, 95, 191, 0.2)' }}>
-              <Stack direction="row" spacing={2} justifyContent="flex-end">
-                <Button variant="outlined" color="error" startIcon={<Delete />}>
-                  Delete Account
-                </Button>
-                <Button 
-                  variant="contained" 
-                  onClick={handleSaveSettings}
-                  sx={{ bgcolor: 'primary.main', color: 'black' }}
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="flex-end">
+                <Button
+                  variant="outlined"
+                  sx={{ 
+                    color: 'text.secondary', 
+                    borderColor: 'text.secondary',
+                    minWidth: { xs: '100%', sm: 'auto' }
+                  }}
                 >
-                  Save Changes
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleSaveSettings}
+                  sx={{ 
+                    bgcolor: 'primary.main', 
+                    color: 'black',
+                    minWidth: { xs: '100%', sm: 'auto' },
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      transform: 'translateY(-1px)',
+                      boxShadow: '0 4px 12px rgba(255, 105, 180, 0.3)'
+                    }
+                  }}
+                >
+                  Save Settings
                 </Button>
               </Stack>
             </Box>

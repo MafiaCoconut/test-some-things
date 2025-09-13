@@ -7,6 +7,9 @@ import LandingPage from "./components/LandingPage";
 import AllCollectionsPage from "./components/pages/AllCollectionsPage";
 import CollectionPage from "./components/pages/CollectionPage";
 import UserPage from "./components/pages/UserPage";
+import FriendsPage from "./components/pages/FriendsPage";
+import GroupsPage from "./components/pages/GroupsPage";
+import DollViewPage from "./components/pages/DollViewPage";
 
 function App() {
   return (

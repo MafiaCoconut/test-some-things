@@ -9,6 +9,7 @@ import {
 import { Favorite, GitHub, Twitter, Instagram, Email } from '@mui/icons-material';
 
 const AppFooter = () => {
+  const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
 
   return (

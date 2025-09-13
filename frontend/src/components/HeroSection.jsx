@@ -62,10 +62,10 @@ const HeroSection = ({ onOpenAuth, onSubscribe, isSubscribed }) => {
               <ArrowRight className="w-4 h-4 ml-2 inline" />
             </button>
             <button
-              onClick={() => onOpenAuth('login')}
+              onClick={() => navigate('/user')}
               className="cta-button large bg-transparent hover:bg-monstrino-white/10 text-monstrino-white border-monstrino-white px-8 py-4 rounded-full font-mono text-sm uppercase tracking-wide transition-all duration-300 hover:scale-105"
             >
-              Sign In
+              Watch Demo
             </button>
           </div>
 

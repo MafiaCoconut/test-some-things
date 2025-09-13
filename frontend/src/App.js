@@ -22,6 +22,9 @@ function App() {
             <Route path="/collections" element={<AllCollectionsPage />} />
             <Route path="/collection/:id" element={<CollectionPage />} />
             <Route path="/user" element={<UserPage />} />
+            <Route path="/friends" element={<FriendsPage />} />
+            <Route path="/groups" element={<GroupsPage />} />
+            <Route path="/doll/:id" element={<DollViewPage />} />
           </Routes>
         </BrowserRouter>
       </div>

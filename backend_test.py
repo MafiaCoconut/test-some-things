@@ -53,7 +53,7 @@ class EmailBackendTester:
         
         try:
             payload = {
-                "email": "draculaura@monsterhigh.com",
+                "email": self.get_unique_email("draculaura"),
                 "username": "Draculaura",
                 "template_variant": "1"
             }
@@ -77,22 +77,30 @@ class EmailBackendTester:
         test_name = "Email Subscribe - Duplicate Email"
         
         try:
+            unique_email = self.get_unique_email("duplicate_test")
             payload = {
-                "email": "draculaura@monsterhigh.com",
-                "username": "Draculaura",
+                "email": unique_email,
+                "username": "DuplicateTest",
                 "template_variant": "2"
             }
             
-            response = requests.post(f"{self.base_url}/email/subscribe", json=payload)
+            # First subscription should succeed
+            first_response = requests.post(f"{self.base_url}/email/subscribe", json=payload)
             
-            if response.status_code == 400:
-                data = response.json()
-                if "already subscribed" in data.get("detail", "").lower():
-                    self.log_test(test_name, True, "Correctly rejected duplicate subscription")
+            if first_response.status_code == 200:
+                # Second subscription should fail with 400
+                second_response = requests.post(f"{self.base_url}/email/subscribe", json=payload)
+                
+                if second_response.status_code == 400:
+                    data = second_response.json()
+                    if "already subscribed" in data.get("detail", "").lower():
+                        self.log_test(test_name, True, "Correctly rejected duplicate subscription")
+                    else:
+                        self.log_test(test_name, False, "Wrong error message for duplicate", data)
                 else:
-                    self.log_test(test_name, False, "Wrong error message for duplicate", data)
+                    self.log_test(test_name, False, f"Expected 400, got {second_response.status_code}", second_response.text)
             else:
-                self.log_test(test_name, False, f"Expected 400, got {response.status_code}", response.text)
+                self.log_test(test_name, False, f"First subscription failed: {first_response.status_code}", first_response.text)
                 
         except Exception as e:
             self.log_test(test_name, False, f"Exception: {str(e)}")

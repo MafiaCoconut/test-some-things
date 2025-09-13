@@ -24,6 +24,7 @@ const LeftMenu = ({ mobileOpen, onMobileClose }) => {
     { path: '/user', label: 'My Page', icon: Person },
     { path: '/friends-posts', label: 'Friends Posts', icon: Article },
     { path: '/collections', label: 'My Collections', icon: FolderOpen },
+    { path: '/wishlist', label: 'Wishlist', icon: FavoriteOutlined },
     { path: '/friends', label: 'My Friends', icon: People },
     { path: '/groups', label: 'My Groups', icon: Forum },
     { path: '/achievements', label: 'Achievements', icon: EmojiEvents },

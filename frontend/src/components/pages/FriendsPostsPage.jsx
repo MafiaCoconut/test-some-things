@@ -151,11 +151,11 @@ const FriendsPostsPage = () => {
       <Box 
         component="main" 
         sx={{ 
-          flexGrow: 1, 
+          flexGrow: 1,
           ml: { xs: 0, md: '200px', lg: '220px' },
           mt: 8,
-          width: { xs: '100%', md: 'calc(100% - 200px)', lg: 'calc(100% - 220px)' },
-          minHeight: 'calc(100vh - 64px)'
+          minHeight: 'calc(100vh - 64px)',
+          width: 'auto'
         }}
       >
         <Container 

@@ -26,7 +26,7 @@ const UserHeader = ({ userData, onEditProfile }) => {
         {/* Avatar */}
         <Grid item>
           <Avatar
-            src={user.avatar}
+            src={userData.avatar}
             sx={{
               width: 64,
               height: 64,
@@ -36,17 +36,24 @@ const UserHeader = ({ userData, onEditProfile }) => {
               color: 'black'
             }}
           >
-            {!user.avatar && user.username.charAt(0).toUpperCase()}
+            {!userData.avatar && userData.username.charAt(0).toUpperCase()}
           </Avatar>
         </Grid>
 
         {/* User Info */}
         <Grid item xs>
-          <Typography variant="h5" sx={{ color: 'white', mb: 0.5 }}>
-            {user.username}
-          </Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography variant="h5" sx={{ color: 'white', mb: 0.5 }}>
+              {userData.username}
+            </Typography>
+            {onEditProfile && (
+              <IconButton onClick={onEditProfile} size="small" sx={{ color: 'primary.main' }}>
+                <Edit fontSize="small" />
+              </IconButton>
+            )}
+          </Stack>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            {user.bio}
+            {userData.bio}
           </Typography>
         </Grid>
 
@@ -55,7 +62,7 @@ const UserHeader = ({ userData, onEditProfile }) => {
           <Stack direction="row" spacing={4}>
             <Box textAlign="center">
               <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                {user.stats.collections}
+                {userData.stats.collections}
               </Typography>
               <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                 Collections
@@ -63,7 +70,7 @@ const UserHeader = ({ userData, onEditProfile }) => {
             </Box>
             <Box textAlign="center">
               <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                {user.stats.dolls}
+                {userData.stats.dolls}
               </Typography>
               <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                 Dolls
@@ -71,7 +78,7 @@ const UserHeader = ({ userData, onEditProfile }) => {
             </Box>
             <Box textAlign="center">
               <Typography variant="h6" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                {user.stats.friends}
+                {userData.stats.friends}
               </Typography>
               <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                 Friends

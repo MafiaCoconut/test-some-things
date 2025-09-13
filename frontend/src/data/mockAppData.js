@@ -224,6 +224,49 @@ export const mockUserData = {
   ]
 };
 
+export const mockAchievements = [
+  {
+    id: 1,
+    name: "First Collection",
+    description: "Created your first collection",
+    icon: "🏆",
+    color: "#ffd93d",
+    unlockedAt: "2024-02-01T10:00:00Z"
+  },
+  {
+    id: 2,
+    name: "Social Butterfly",
+    description: "Made 10 friends",
+    icon: "🦋",
+    color: "#ff69b4",
+    unlockedAt: "2024-02-15T14:30:00Z"
+  },
+  {
+    id: 3,
+    name: "Doll Master",
+    description: "Added 25 dolls to collections",
+    icon: "👑",
+    color: "#8b5fbf",
+    unlockedAt: "2024-03-01T09:15:00Z"
+  },
+  {
+    id: 4,
+    name: "Popular Poster",
+    description: "Got 100 likes on a post",
+    icon: "⭐",
+    color: "#66cc66",
+    unlockedAt: "2024-03-10T16:45:00Z"
+  },
+  {
+    id: 5,
+    name: "Monster Expert",
+    description: "Completed all character sets",
+    icon: "🎭",
+    color: "#ff8c42",
+    unlockedAt: "2024-03-20T11:20:00Z"
+  }
+];
+
 export const mockActivities = [
   {
     id: 1,

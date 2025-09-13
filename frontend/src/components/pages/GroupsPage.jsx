@@ -19,7 +19,7 @@ const GroupsPage = () => {
       <LeftMenu />
       
       <Box component="main" sx={{ flexGrow: 1, ml: '200px', mt: 8 }}>
-        <UserHeader />
+        <UserHeader userData={mockUserData.currentUser} />
         
         <Box sx={{ p: 3 }}>
           <Typography variant="h4" sx={{ color: 'primary.main', mb: 3 }}>My Groups</Typography>

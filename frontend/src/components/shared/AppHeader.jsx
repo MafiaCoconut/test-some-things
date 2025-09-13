@@ -8,7 +8,7 @@ import {
   Box,
   IconButton,
 } from '@mui/material';
-import { Home, LogOut } from '@mui/icons-material';
+import { Home, Logout } from '@mui/icons-material';
 
 const AppHeader = () => {
   const navigate = useNavigate();

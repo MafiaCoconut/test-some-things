@@ -123,43 +123,105 @@ const AllCollectionsPage = () => {
               Create Collection
             </Button>
           </Stack>
-              }}
-            >
-              All Collections
-            </Typography>
-            <Button
-              variant="contained"
-              startIcon={<Add />}
-              onClick={() => setIsCreateModalOpen(true)}
-              sx={{ bgcolor: 'secondary.main' }}
-            >
-              Create Collection
-            </Button>
-          </Stack>
 
-          {/* Collections Grid - Smaller blocks */}
-          <Grid container spacing={2}>
+          {/* Collections Grid - Flexible and Responsive */}
+          <Grid 
+            container 
+            spacing={{ xs: 2, md: 3 }}
+            sx={{
+              width: '100%',
+              margin: 0,
+              '& .MuiGrid-item': {
+                paddingLeft: { xs: '8px', md: '12px' },
+                paddingTop: { xs: '8px', md: '12px' }
+              }
+            }}
+          >
             {collections.map((collection) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={collection.id}>
-                <CollectionCard collection={collection} size="small" />
+              <Grid 
+                item 
+                xs={12} 
+                sm={6} 
+                md={4} 
+                lg={3} 
+                xl={2.4}
+                key={collection.id}
+                sx={{
+                  display: 'flex',
+                  transition: 'transform 0.2s ease',
+                  '&:hover': {
+                    transform: 'translateY(-4px)'
+                  }
+                }}
+              >
+                <CollectionCard 
+                  collection={collection} 
+                  sx={{ 
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }} 
+                />
               </Grid>
             ))}
           </Grid>
 
           {/* Empty State */}
           {collections.length === 0 && (
-            <Box textAlign="center" sx={{ py: 8 }}>
-              <Typography variant="h2" sx={{ mb: 2 }}>👻</Typography>
-              <Typography variant="h5" sx={{ color: 'white', mb: 1 }}>
+            <Box 
+              sx={{ 
+                textAlign: 'center', 
+                py: { xs: 6, md: 8 },
+                px: { xs: 2, md: 0 }
+              }}
+            >
+              <Typography 
+                variant="h2" 
+                sx={{ 
+                  mb: 2, 
+                  fontSize: { xs: '3rem', md: '4rem' }
+                }}
+              >
+                👻
+              </Typography>
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  color: 'white', 
+                  mb: 1,
+                  fontSize: { xs: '1.5rem', md: '1.5rem' }
+                }}
+              >
                 No Collections Yet
               </Typography>
-              <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3 }}>
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  color: 'text.secondary', 
+                  mb: 3,
+                  fontSize: { xs: '0.9rem', md: '1rem' },
+                  maxWidth: '400px',
+                  mx: 'auto'
+                }}
+              >
                 Start building your monster collection today!
               </Typography>
               <Button
                 variant="contained"
                 onClick={() => setIsCreateModalOpen(true)}
-                sx={{ bgcolor: 'primary.main', color: 'black' }}
+                sx={{ 
+                  bgcolor: 'primary.main', 
+                  color: 'black',
+                  px: { xs: 3, md: 4 },
+                  py: { xs: 1.5, md: 1 },
+                  fontSize: { xs: '0.9rem', md: '1rem' },
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 6px 20px rgba(255, 105, 180, 0.3)'
+                  }
+                }}
               >
                 Create Your First Collection
               </Button>

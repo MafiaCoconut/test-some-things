@@ -72,10 +72,11 @@ const GroupsPage = () => {
         <UserHeader userData={mockUserData.currentUser} />
         
         <Container 
-          maxWidth="xl" 
+          maxWidth={false}
           sx={{ 
             py: { xs: 2, md: 3 }, 
-            px: { xs: 1, md: 2 },
+            px: { xs: 1, md: 3 },
+            maxWidth: 'none',
             width: '100%'
           }}
         >

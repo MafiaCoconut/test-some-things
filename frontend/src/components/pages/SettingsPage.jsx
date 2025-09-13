@@ -119,20 +119,22 @@ const SettingsPage = () => {
       <Box 
         component="main" 
         sx={{ 
-          flexGrow: 1, 
+          flexGrow: 1,
           ml: { xs: 0, md: '200px', lg: '220px' },
           mt: 8,
-          width: { xs: '100%', md: 'calc(100% - 200px)', lg: 'calc(100% - 220px)' },
+          minHeight: 'calc(100vh - 64px)',
+          width: 'auto',
           overflowX: 'hidden'
         }}
       >
         <UserHeader userData={mockUserData.currentUser} />
         
         <Container 
-          maxWidth="md" 
+          maxWidth={false}
           sx={{ 
             py: { xs: 2, md: 4 },
-            px: { xs: 1, md: 2 },
+            px: { xs: 1, md: 3 },
+            maxWidth: 'none',
             width: '100%'
           }}
         >

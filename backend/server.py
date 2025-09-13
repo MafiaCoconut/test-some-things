@@ -36,6 +36,34 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+class EmailSubscription(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: EmailStr
+    username: Optional[str] = "Ghoul"
+    template_variant: str = "1"  # Default to variant 1
+    subscribed_at: datetime = Field(default_factory=datetime.utcnow)
+    is_active: bool = True
+
+class EmailSubscriptionCreate(BaseModel):
+    email: EmailStr
+    username: Optional[str] = "Ghoul"
+    template_variant: Optional[str] = "1"
+
+class EmailTemplate(BaseModel):
+    subject: str
+    html_body: str
+    text_body: str
+    recipient_email: str
+    recipient_username: str
+    template_variant: str
+    template_type: str
+
+class EmailSendRequest(BaseModel):
+    email: EmailStr
+    username: Optional[str] = "Ghoul"
+    template_variant: str = "1"
+    template_type: str = "newsletter"  # or "release"
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():

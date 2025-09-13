@@ -15,6 +15,8 @@ import PrivacyPage from "./components/pages/PrivacyPage";
 import TermsPage from "./components/pages/TermsPage";
 import HelpPage from "./components/pages/HelpPage";
 import ContactPage from "./components/pages/ContactPage";
+import PostsPage from "./components/pages/PostsPage";
+import SettingsPage from "./components/pages/SettingsPage";
 
 function App() {
   return (

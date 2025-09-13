@@ -14,7 +14,7 @@ import {
   IconButton,
   Drawer
 } from '@mui/material';
-import { Edit, People, Forum, AccessTime, Settings, FavoriteOutlined } from '@mui/icons-material';
+import { Edit, People, Forum, AccessTime, Settings, FavoriteOutlined, EmojiEvents } from '@mui/icons-material';
 import AppHeader from '../shared/AppHeader';
 import LeftMenu from '../shared/LeftMenu';
 import UserHeader from '../shared/UserHeader';
@@ -26,7 +26,7 @@ import GroupsModal from '../modals/GroupsModal';
 import EditProfileModal from '../modals/EditProfileModal';
 import UserSettingsModal from '../modals/UserSettingsModal';
 import ActivityFeed from '../shared/ActivityFeed';
-import { mockUserData, mockActivities } from '../../data/mockAppData';
+import { mockUserData, mockActivities, mockAchievements } from '../../data/mockAppData';
 import { useNavigate } from 'react-router-dom';
 
 const UserPage = () => {
@@ -49,7 +49,8 @@ const UserPage = () => {
       id: Date.now(),
       date: new Date().toISOString(),
       likes: 0,
-      comments: 0
+      comments: 0,
+      tags: postData.tags || []
     };
     setPosts([newPost, ...posts]);
     setIsWritePostModalOpen(false);
@@ -71,21 +72,43 @@ const UserPage = () => {
       <Box component="main" sx={{ flexGrow: 1, ml: '200px', mr: `${rightDrawerWidth}px`, mt: 8 }}>
         <UserHeader userData={userData} onEditProfile={() => setIsEditProfileOpen(true)} />
         
-        {/* Monster Status */}
+        {/* Monster Status & Achievements */}
         <Paper sx={{ m: 2, p: 2, bgcolor: 'rgba(139, 95, 191, 0.1)' }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Box>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={8}>
               <Typography variant="h6" sx={{ color: 'primary.main', mb: 1 }}>Monster Status</Typography>
               <Stack direction="row" spacing={1}>
                 <Chip label="Vampire Crew" color="primary" size="small" />
                 <Chip label="Active" color="success" size="small" />
                 <Chip label="Level 15" color="secondary" size="small" />
               </Stack>
-            </Box>
-            <IconButton onClick={() => setIsSettingsOpen(true)} sx={{ color: 'primary.main' }}>
-              <Settings />
-            </IconButton>
-          </Stack>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+                <EmojiEvents sx={{ color: 'warning.main' }} />
+                <Typography variant="h6" sx={{ color: 'warning.main' }}>Achievements</Typography>
+              </Stack>
+              <Stack direction="row" spacing={1} flexWrap="wrap">
+                {mockAchievements.slice(0, 3).map((achievement) => (
+                  <Chip 
+                    key={achievement.id}
+                    label={achievement.name}
+                    size="small"
+                    sx={{ 
+                      bgcolor: achievement.color,
+                      color: 'white',
+                      mb: 0.5
+                    }}
+                  />
+                ))}
+              </Stack>
+            </Grid>
+            <Grid item xs={12}>
+              <IconButton onClick={() => setIsSettingsOpen(true)} sx={{ color: 'primary.main', float: 'right' }}>
+                <Settings />
+              </IconButton>
+            </Grid>
+          </Grid>
         </Paper>
         
         <Container maxWidth="xl" sx={{ py: 2 }}>
@@ -153,19 +176,26 @@ const UserPage = () => {
             </Stack>
           </Paper>
 
-          {/* Posts */}
-          <Typography variant="h6" sx={{ color: 'primary.main', mb: 2 }}>Recent Posts</Typography>
-          <Stack spacing={2}>
-            {posts.slice(0, 3).map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </Stack>
+          {/* Posts Section */}
+          <Box sx={{ mb: 4 }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ color: 'primary.main' }}>Recent Posts</Typography>
+              <Button variant="text" onClick={() => navigate('/posts')} sx={{ color: 'secondary.main' }}>
+                View All Posts
+              </Button>
+            </Stack>
+            <Stack spacing={2}>
+              {posts.slice(0, 3).map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </Stack>
+          </Box>
         </Container>
 
         <AppFooter />
       </Box>
 
-      {/* Right Drawer - Collections */}
+      {/* Right Drawer - Collections (moved under favorite dolls position) */}
       <Drawer
         variant="permanent"
         anchor="right"

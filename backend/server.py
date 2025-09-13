@@ -114,6 +114,9 @@ async def subscribe_to_newsletter(subscription: EmailSubscriptionCreate):
         logger.info(f"New email subscription: {subscription.email}")
         return subscription_obj
         
+    except HTTPException:
+        # Re-raise HTTPExceptions (like duplicate email)
+        raise
     except Exception as e:
         logger.error(f"Error creating email subscription: {e}")
         raise HTTPException(status_code=500, detail="Failed to subscribe to newsletter")

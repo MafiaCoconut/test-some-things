@@ -4,6 +4,7 @@ import { Zap, Users, Heart, ArrowRight } from 'lucide-react';
 
 const HeroSection = ({ onOpenAuth, onSubscribe, isSubscribed }) => {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleSubscribe = (e) => {
     e.preventDefault();

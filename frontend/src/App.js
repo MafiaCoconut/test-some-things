@@ -30,6 +30,11 @@ function App() {
             <Route path="/friends" element={<FriendsPage />} />
             <Route path="/groups" element={<GroupsPage />} />
             <Route path="/doll/:id" element={<DollViewPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/help" element={<HelpPage />} />
+            <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </BrowserRouter>
       </div>

@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material';
-import { Person, FolderOpen, People, Forum, Settings, Article, EmojiEvents } from '@mui/icons-material';
+import { Person, FolderOpen, People, Forum, Settings, Article, EmojiEvents, FavoriteOutlined } from '@mui/icons-material';
 
 const LeftMenu = ({ mobileOpen, onMobileClose }) => {
   const navigate = useNavigate();

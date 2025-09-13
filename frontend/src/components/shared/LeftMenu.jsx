@@ -8,34 +8,156 @@ import {
   ListItemIcon, 
   ListItemText,
   Box,
-  Divider
+  Divider,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
-import { Person, FolderOpen, People, Forum, Settings, Article } from '@mui/icons-material';
+import { Person, FolderOpen, People, Forum, Settings, Article, EmojiEvents } from '@mui/icons-material';
 
-const LeftMenu = () => {
+const LeftMenu = ({ mobileOpen, onMobileClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const menuItems = [
     { path: '/user', label: 'My Page', icon: Person },
-    { path: '/posts', label: 'My Posts', icon: Article },
+    { path: '/friends-posts', label: 'Friends Posts', icon: Article },
     { path: '/collections', label: 'My Collections', icon: FolderOpen },
     { path: '/friends', label: 'My Friends', icon: People },
     { path: '/groups', label: 'My Groups', icon: Forum },
+    { path: '/achievements', label: 'Achievements', icon: EmojiEvents },
   ];
 
   const settingsItems = [
     { path: '/settings', label: 'Settings', icon: Settings }
   ];
 
+  const handleNavigation = (path) => {
+    navigate(path);
+    if (isMobile && onMobileClose) {
+      onMobileClose();
+    }
+  };
+
+  const drawerContent = (
+    <Box sx={{ p: { xs: 1, md: 2 } }}>
+      <List>
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+          
+          return (
+            <ListItem key={item.path} disablePadding>
+              <ListItemButton
+                onClick={() => handleNavigation(item.path)}
+                sx={{
+                  borderRadius: 1,
+                  mb: 0.5,
+                  bgcolor: isActive ? 'secondary.main' : 'transparent',
+                  color: isActive ? 'white' : 'primary.main',
+                  minHeight: { xs: 40, md: 48 },
+                  px: { xs: 1, md: 2 },
+                  '&:hover': {
+                    bgcolor: isActive ? 'secondary.main' : 'rgba(139, 95, 191, 0.2)',
+                    color: 'white',
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ color: 'inherit', minWidth: { xs: 32, md: 36 } }}>
+                  <Icon fontSize={isMobile ? "small" : "medium"} />
+                </ListItemIcon>
+                <ListItemText 
+                  primary={item.label}
+                  primaryTypographyProps={{
+                    fontSize: { xs: '0.7rem', md: '0.75rem' },
+                    fontFamily: '"Fira Code", monospace',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </List>
+
+      <Divider sx={{ my: 2, borderColor: 'rgba(139, 95, 191, 0.2)' }} />
+
+      <List>
+        {settingsItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+          
+          return (
+            <ListItem key={item.path} disablePadding>
+              <ListItemButton
+                onClick={() => handleNavigation(item.path)}
+                sx={{
+                  borderRadius: 1,
+                  mb: 0.5,
+                  bgcolor: isActive ? 'warning.main' : 'transparent',
+                  color: isActive ? 'black' : 'warning.main',
+                  minHeight: { xs: 40, md: 48 },
+                  px: { xs: 1, md: 2 },
+                  '&:hover': {
+                    bgcolor: isActive ? 'warning.main' : 'rgba(255, 211, 61, 0.2)',
+                    color: isActive ? 'black' : 'white',
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ color: 'inherit', minWidth: { xs: 32, md: 36 } }}>
+                  <Icon fontSize={isMobile ? "small" : "medium"} />
+                </ListItemIcon>
+                <ListItemText 
+                  primary={item.label}
+                  primaryTypographyProps={{
+                    fontSize: { xs: '0.7rem', md: '0.75rem' },
+                    fontFamily: '"Fira Code", monospace',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </List>
+    </Box>
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={onMobileClose}
+        ModalProps={{
+          keepMounted: true, // Better mobile performance
+        }}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: 240,
+            boxSizing: 'border-box',
+            bgcolor: 'background.default',
+            borderRight: 1,
+            borderColor: 'rgba(139, 95, 191, 0.2)',
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+    );
+  }
+
   return (
     <Drawer
       variant="permanent"
       sx={{
-        width: 200,
+        width: { md: 200, lg: 220 },
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: 200,
+          width: { md: 200, lg: 220 },
           boxSizing: 'border-box',
           bgcolor: 'background.default',
           borderRight: 1,
@@ -44,85 +166,7 @@ const LeftMenu = () => {
         },
       }}
     >
-      <Box sx={{ p: 2 }}>
-        <List>
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            
-            return (
-              <ListItem key={item.path} disablePadding>
-                <ListItemButton
-                  onClick={() => navigate(item.path)}
-                  sx={{
-                    borderRadius: 1,
-                    mb: 0.5,
-                    bgcolor: isActive ? 'secondary.main' : 'transparent',
-                    color: isActive ? 'white' : 'primary.main',
-                    '&:hover': {
-                      bgcolor: isActive ? 'secondary.main' : 'rgba(139, 95, 191, 0.2)',
-                      color: 'white',
-                    },
-                  }}
-                >
-                  <ListItemIcon sx={{ color: 'inherit', minWidth: 36 }}>
-                    <Icon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={item.label}
-                    primaryTypographyProps={{
-                      fontSize: '0.75rem',
-                      fontFamily: '"Fira Code", monospace',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em'
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List>
-
-        <Divider sx={{ my: 2, borderColor: 'rgba(139, 95, 191, 0.2)' }} />
-
-        <List>
-          {settingsItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            
-            return (
-              <ListItem key={item.path} disablePadding>
-                <ListItemButton
-                  onClick={() => navigate(item.path)}
-                  sx={{
-                    borderRadius: 1,
-                    mb: 0.5,
-                    bgcolor: isActive ? 'warning.main' : 'transparent',
-                    color: isActive ? 'black' : 'warning.main',
-                    '&:hover': {
-                      bgcolor: isActive ? 'warning.main' : 'rgba(255, 211, 61, 0.2)',
-                      color: isActive ? 'black' : 'white',
-                    },
-                  }}
-                >
-                  <ListItemIcon sx={{ color: 'inherit', minWidth: 36 }}>
-                    <Icon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={item.label}
-                    primaryTypographyProps={{
-                      fontSize: '0.75rem',
-                      fontFamily: '"Fira Code", monospace',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em'
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Box>
+      {drawerContent}
     </Drawer>
   );
 };

@@ -37,7 +37,7 @@ const AllCollectionsPage = () => {
       <LeftMenu />
       
       <Box component="main" sx={{ flexGrow: 1, ml: '200px', mt: 8 }}>
-        <UserHeader />
+        <UserHeader userData={mockUserData.currentUser} />
         
         <Container maxWidth="xl" sx={{ py: 3 }}>
           {/* Page Title and Actions */}

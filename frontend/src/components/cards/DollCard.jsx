@@ -43,6 +43,7 @@ const DollCard = ({ doll, onRemove, size = 'medium' }) => {
 
   return (
     <Card
+      onClick={handleViewDoll}
       sx={{
         height: getCardHeight(),
         bgcolor: 'rgba(255, 105, 180, 0.1)',

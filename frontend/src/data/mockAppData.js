@@ -20,7 +20,8 @@ export const mockUserData = {
       description: "The iconic first wave of Monster High dolls that started it all!",
       coverImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop",
       dollsCount: 8,
-      createdAt: "2024-02-01"
+      createdAt: "2024-02-01",
+      dolls: [1, 2, 3, 4, 5, 6]
     },
     {
       id: 2,
@@ -28,7 +29,8 @@ export const mockUserData = {
       description: "All my favorite vampire ghouls and their fabulous outfits",
       coverImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop",
       dollsCount: 12,
-      createdAt: "2024-02-15"
+      createdAt: "2024-02-15",
+      dolls: [1, 3, 5]
     },
     {
       id: 3,
@@ -36,7 +38,8 @@ export const mockUserData = {
       description: "Rare and limited edition Monster High dolls",
       coverImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop",
       dollsCount: 6,
-      createdAt: "2024-03-01"
+      createdAt: "2024-03-01",
+      dolls: [2, 4, 6]
     },
     {
       id: 4,
@@ -44,7 +47,8 @@ export const mockUserData = {
       description: "Runway-ready outfits and haute couture looks",
       coverImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop",
       dollsCount: 15,
-      createdAt: "2024-03-10"
+      createdAt: "2024-03-10",
+      dolls: [1, 2, 3, 4, 5, 6]
     },
     {
       id: 5,
@@ -52,7 +56,8 @@ export const mockUserData = {
       description: "Dolls from all the Monster High movies and specials",
       coverImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop",
       dollsCount: 9,
-      createdAt: "2024-03-20"
+      createdAt: "2024-03-20",
+      dolls: [3, 4, 5]
     },
     {
       id: 6,
@@ -60,7 +65,8 @@ export const mockUserData = {
       description: "Festive and seasonal Monster High collections",
       coverImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop",
       dollsCount: 7,
-      createdAt: "2024-04-01"
+      createdAt: "2024-04-01",
+      dolls: [1, 6]
     }
   ],
 
@@ -71,7 +77,7 @@ export const mockUserData = {
       character: "Vampire",
       series: "Original",
       year: 2010,
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=300&fit=crop",
       description: "The sweetest vampire who doesn't bite! Loves pink, fashion, and being vegan.",
       collectionId: 1
     },
@@ -81,7 +87,7 @@ export const mockUserData = {
       character: "Werewolf",
       series: "Original",
       year: 2010,
-      image: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=200&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=300&fit=crop",
       description: "Fierce fashionista with werewolf style and confidence to match.",
       collectionId: 1
     },
@@ -91,7 +97,7 @@ export const mockUserData = {
       character: "Monster",
       series: "Original",
       year: 2010,
-      image: "https://images.unsplash.com/photo-1515779689357-8b5b5e7a6c4a?w=200&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=300&fit=crop",
       description: "Electrifyingly friendly monster who's always ready to make new friends!",
       collectionId: 1
     },
@@ -101,7 +107,7 @@ export const mockUserData = {
       character: "Sea Monster",
       series: "Original",
       year: 2010,
-      image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=200&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=300&fit=crop",
       description: "Chill sea monster who brings the ocean vibes wherever she goes.",
       collectionId: 1
     },
@@ -111,7 +117,7 @@ export const mockUserData = {
       character: "Mummy",
       series: "Original",
       year: 2010,
-      image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=200&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=300&fit=crop",
       description: "Royal mummy princess with impeccable taste and style.",
       collectionId: 1
     },
@@ -121,7 +127,7 @@ export const mockUserData = {
       character: "Zombie",
       series: "Original",
       year: 2011,
-      image: "https://images.unsplash.com/photo-1482849297070-f4fae2173efe?w=200&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=300&fit=crop",
       description: "Brainy zombie who's the smartest ghoul at Monster High.",
       collectionId: 1
     }
@@ -195,21 +201,74 @@ export const mockUserData = {
       name: "Vampire Crew",
       description: "For all things vampire and gothic fashion",
       members: 156,
-      image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=100&h=100&fit=crop"
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop"
     },
     {
       id: 2,
       name: "Doll Collectors United",
       description: "Share your collections and find rare dolls",
       members: 342,
-      image: "https://images.unsplash.com/photo-1515779689357-8b5b5e7a6c4a?w=100&h=100&fit=crop"
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&h=100&fit=crop"
     },
     {
       id: 3,
       name: "Fashion Ghouls",
       description: "Runway looks and style inspiration",
       members: 89,
-      image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=100&h=100&fit=crop"
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop"
     }
   ]
 };
+
+export const mockActivities = [
+  {
+    id: 1,
+    username: "WerewolfStyleQueen",
+    userAvatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    action: "added a new doll",
+    description: "Clawdeen Wolf Original Series to Werewolf Collection",
+    type: "doll_added",
+    category: "Collection",
+    timestamp: "2024-04-01T14:30:00Z"
+  },
+  {
+    id: 2,
+    username: "ElectricFrankie",
+    userAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    action: "created a new collection",
+    description: "Electric Dreams - A collection of Frankie Stein dolls",
+    type: "collection_created",
+    category: "Collection",
+    timestamp: "2024-04-01T12:15:00Z"
+  },
+  {
+    id: 3,
+    username: "SeaMonsterVibes",
+    userAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+    action: "liked your post",
+    description: "Doll Photography Tips",
+    type: "post_liked",
+    category: "Social",
+    timestamp: "2024-04-01T11:45:00Z"
+  },
+  {
+    id: 4,
+    username: "MummyPrincess",
+    userAvatar: "https://images.unsplash.com/photo-1494790108755-2616b9c8d8c1?w=100&h=100&fit=crop&crop=face",
+    action: "commented on your post",
+    description: "Great tips! I use the same lighting setup",
+    type: "comment_added",
+    category: "Social",
+    timestamp: "2024-04-01T10:20:00Z"
+  },
+  {
+    id: 5,  
+    username: "GothicCollector",
+    userAvatar: "",
+    action: "added 3 new dolls",
+    description: "to Gothic Fashion collection",
+    type: "doll_added",
+    category: "Collection",
+    timestamp: "2024-04-01T09:10:00Z"
+  }
+];

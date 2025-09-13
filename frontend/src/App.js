@@ -33,6 +33,7 @@ function App() {
             <Route path="/collection/:id" element={<CollectionPage />} />
             <Route path="/user" element={<UserPage />} />
             <Route path="/friends" element={<FriendsPage />} />
+            <Route path="/friends-posts" element={<FriendsPostsPage />} />
             <Route path="/groups" element={<GroupsPage />} />
             <Route path="/doll/:id" element={<DollViewPage />} />
             <Route path="/about" element={<AboutPage />} />

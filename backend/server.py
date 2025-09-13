@@ -168,23 +168,29 @@ async def get_email_subscriptions():
         logger.error(f"Error fetching email subscriptions: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch subscriptions")
 
+class EmailUnsubscribeRequest(BaseModel):
+    email: EmailStr
+
 @api_router.post("/email/unsubscribe")
-async def unsubscribe_from_newsletter(email: EmailStr):
+async def unsubscribe_from_newsletter(request: EmailUnsubscribeRequest):
     """
     Unsubscribe user from newsletter
     """
     try:
         result = await db.email_subscriptions.update_one(
-            {"email": email},
+            {"email": request.email},
             {"$set": {"is_active": False}}
         )
         
         if result.modified_count == 0:
             raise HTTPException(status_code=404, detail="Email subscription not found")
         
-        logger.info(f"Email unsubscribed: {email}")
+        logger.info(f"Email unsubscribed: {request.email}")
         return {"message": "Successfully unsubscribed from newsletter"}
         
+    except HTTPException:
+        # Re-raise HTTPExceptions (like not found)
+        raise
     except Exception as e:
         logger.error(f"Error unsubscribing email: {e}")
         raise HTTPException(status_code=500, detail="Failed to unsubscribe from newsletter")

@@ -101,3 +101,111 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Fix script error and implement mobile menu improvements, collections redesign, wishlist functionality, and create email templates for newsletter subscription"
+
+backend:
+  - task: "Email endpoint for newsletter subscription"
+    implemented: false
+    working: "NA"
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "To be implemented - create flexible email endpoint with templates"
+
+  - task: "Email template variants creation"
+    implemented: false
+    working: "NA" 
+    file: "email_templates.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Create 2-3 Monster High themed email template variants"
+
+frontend:
+  - task: "Script error fix"
+    implemented: true
+    working: true
+    file: "Multiple components"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Script error resolved - all components loading successfully"
+
+  - task: "Mobile menu Monstrino label"
+    implemented: false
+    working: "NA"
+    file: "LeftMenu.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Add Monstrino label to top of mobile menu"
+
+  - task: "Menu button modal behavior"
+    implemented: false
+    working: "NA"
+    file: "UserPage.jsx"
+    stuck_count: 0
+    priority: "medium" 
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Menu button should move right when menu opens in mobile"
+
+  - task: "Collections one-line redesign"
+    implemented: false
+    working: "NA"
+    file: "UserPage.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Redesign collections to compact one-line format with image left, title/description, count right"
+
+  - task: "Wishlist functionality"
+    implemented: false
+    working: "NA"
+    file: "Multiple components"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implement wishlist functionality for dolls"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Mobile menu improvements"
+    - "Collections redesign"
+    - "Wishlist functionality"
+    - "Email backend implementation"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Initial setup complete. Script error resolved. Ready to implement mobile menu improvements, collections redesign, wishlist functionality, and email backend."

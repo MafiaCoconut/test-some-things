@@ -54,6 +54,68 @@ const AppFooter = () => {
               <Email />
             </IconButton>
           </Stack>
+          <Stack 
+            direction={{ xs: 'column', sm: 'row' }} 
+            spacing={2}
+            alignItems="center"
+            sx={{ mt: 2 }}
+          >
+            <Typography 
+              variant="caption" 
+              onClick={() => navigate('/help')}
+              sx={{ 
+                color: 'text.secondary',
+                cursor: 'pointer',
+                '&:hover': { color: 'primary.main' }
+              }}
+            >
+              Help Center
+            </Typography>
+            <Typography 
+              variant="caption" 
+              onClick={() => navigate('/privacy')}
+              sx={{ 
+                color: 'text.secondary',
+                cursor: 'pointer',
+                '&:hover': { color: 'primary.main' }
+              }}
+            >
+              Privacy Policy
+            </Typography>
+            <Typography 
+              variant="caption" 
+              onClick={() => navigate('/terms')}
+              sx={{ 
+                color: 'text.secondary',
+                cursor: 'pointer',
+                '&:hover': { color: 'primary.main' }
+              }}
+            >
+              Terms of Service
+            </Typography>
+            <Typography 
+              variant="caption" 
+              onClick={() => navigate('/about')}
+              sx={{ 
+                color: 'text.secondary',
+                cursor: 'pointer',
+                '&:hover': { color: 'primary.main' }
+              }}
+            >
+              About Us
+            </Typography>
+            <Typography 
+              variant="caption" 
+              onClick={() => navigate('/contact')}
+              sx={{ 
+                color: 'text.secondary',
+                cursor: 'pointer',
+                '&:hover': { color: 'primary.main' }
+              }}
+            >
+              Contact
+            </Typography>
+          </Stack>
         </Stack>
         
         <Box textAlign="center" sx={{ mt: 2 }}>

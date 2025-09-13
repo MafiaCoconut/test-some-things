@@ -72,7 +72,7 @@ const CollectionPage = () => {
       <LeftMenu />
       
       <Box component="main" sx={{ flexGrow: 1, ml: '200px', mr: '200px', mt: 8 }}>
-        <UserHeader />
+        <UserHeader userData={mockUserData.currentUser} />
         
         <Container maxWidth="xl" sx={{ py: 3 }}>
           {/* Back Button and Collection Info */}

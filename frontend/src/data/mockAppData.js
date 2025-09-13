@@ -18,7 +18,7 @@ export const mockUserData = {
       id: 1,
       name: "Original Ghouls",
       description: "The iconic first wave of Monster High dolls that started it all!",
-      coverImage: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=300&fit=crop",
+      coverImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop",
       dollsCount: 8,
       createdAt: "2024-02-01"
     },
@@ -26,7 +26,7 @@ export const mockUserData = {
       id: 2,
       name: "Vampire Collection",
       description: "All my favorite vampire ghouls and their fabulous outfits",
-      coverImage: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=300&h=300&fit=crop",
+      coverImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop",
       dollsCount: 12,
       createdAt: "2024-02-15"
     },
@@ -34,7 +34,7 @@ export const mockUserData = {
       id: 3,
       name: "Special Editions",
       description: "Rare and limited edition Monster High dolls",
-      coverImage: "https://images.unsplash.com/photo-1515779689357-8b5b5e7a6c4a?w=300&h=300&fit=crop",
+      coverImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop",
       dollsCount: 6,
       createdAt: "2024-03-01"
     },
@@ -42,7 +42,7 @@ export const mockUserData = {
       id: 4,
       name: "Fashion Week",
       description: "Runway-ready outfits and haute couture looks",
-      coverImage: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&h=300&fit=crop",
+      coverImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop",
       dollsCount: 15,
       createdAt: "2024-03-10"
     },
@@ -50,7 +50,7 @@ export const mockUserData = {
       id: 5,
       name: "Movie Characters",
       description: "Dolls from all the Monster High movies and specials",
-      coverImage: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=300&h=300&fit=crop",
+      coverImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=300&fit=crop",
       dollsCount: 9,
       createdAt: "2024-03-20"
     },
@@ -58,7 +58,7 @@ export const mockUserData = {
       id: 6,
       name: "Holiday Specials",
       description: "Festive and seasonal Monster High collections",
-      coverImage: "https://images.unsplash.com/photo-1482849297070-f4fae2173efe?w=300&h=300&fit=crop",
+      coverImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop",
       dollsCount: 7,
       createdAt: "2024-04-01"
     }

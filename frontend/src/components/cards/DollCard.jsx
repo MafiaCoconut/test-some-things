@@ -12,9 +12,15 @@ import {
 import { Delete, Visibility, Favorite } from '@mui/icons-material';
 
 const DollCard = ({ doll, onRemove, size = 'medium' }) => {
+  const navigate = useNavigate();
+  
   const handleRemoveClick = (e) => {
     e.stopPropagation();
     onRemove(doll.id);
+  };
+
+  const handleViewDoll = () => {
+    navigate(`/doll/${doll.id}`);
   };
 
   const getCardHeight = () => {

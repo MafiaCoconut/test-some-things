@@ -17,6 +17,7 @@ import HelpPage from "./components/pages/HelpPage";
 import ContactPage from "./components/pages/ContactPage";
 import PostsPage from "./components/pages/PostsPage";
 import SettingsPage from "./components/pages/SettingsPage";
+import AchievementsPage from "./components/pages/AchievementsPage";
 
 function App() {
   return (

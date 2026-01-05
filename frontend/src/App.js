@@ -47,6 +47,8 @@ function App() {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/achievements" element={<AchievementsPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/releases_version_1" element={<ReleaseHubV1 />} />
+            <Route path="/releases_version_2" element={<ReleaseHubV2 />} />
           </Routes>
         </BrowserRouter>
       </div>

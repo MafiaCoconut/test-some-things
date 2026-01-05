@@ -20,6 +20,8 @@ import SettingsPage from "./components/pages/SettingsPage";
 import AchievementsPage from "./components/pages/AchievementsPage";
 import WishlistPage from "./components/pages/WishlistPage";
 import FriendsPostsPage from "./components/pages/FriendsPostsPage";
+import ReleaseHubV1 from "./components/pages/ReleaseHubV1";
+import ReleaseHubV2 from "./components/pages/ReleaseHubV2";
 
 function App() {
   return (
